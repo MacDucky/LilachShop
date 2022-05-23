@@ -1,6 +1,10 @@
 package org.lilachshop.entities;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -12,12 +16,11 @@ public class Item implements Serializable {
     @Column(name = "item_name")
     private String name;
 
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    public Set<ItemPrice> itemPrice = new HashSet<ItemPrice>();
+
     private int price;
     private String image;
-
-    @ManyToOne
-    private Catalog catalog;
-
 
     public Item() {
     }
