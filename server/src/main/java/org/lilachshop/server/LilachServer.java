@@ -143,8 +143,8 @@ public class LilachServer extends AbstractServer {
                     }
 
                     case "write catalog" ->{
-//                        entityFactory.createCatalog();
-                        entityFactory.createCatalogFromExistingOne();
+                        entityFactory.createCatalog();
+//                        entityFactory.createCatalogFromExistingOne();
                         client.sendToClient("Catalog is created!");
                     }
 
@@ -156,7 +156,6 @@ public class LilachServer extends AbstractServer {
                 System.out.println("Failed sending reply to client.");
                 e.printStackTrace();
             }
-
         }
     }
 
