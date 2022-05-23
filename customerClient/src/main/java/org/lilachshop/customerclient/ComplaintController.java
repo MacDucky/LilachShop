@@ -42,21 +42,21 @@ public class ComplaintController implements Initializable {
         a.show();
 
 
-        Complaint complaint = new Complaint(String.valueOf(java.time.LocalDate.now()), "פתוח", "130", complaintText.getText());
+        Complaint complaint = new Complaint(String.valueOf(java.time.LocalDate.now()), "פתוח", "131", complaintText.getText());
 
-        ((RegisteredCustomerPanel) panel).sendComplaintToServer(complaint);
-
+//        ((RegisteredCustomerPanel) panel).sendComplaintToServer(complaint);
+        ((RegisteredCustomerPanel) panel).sendCatalogRequestToServer();
         System.out.println(complaint.getContent());
-//        Stage stage = (Stage) onSendComplaintClick.getScene().getWindow();
-//        stage.close();
-        try {
-            App.setRoot("main");
-        } catch (Exception e) {
-            System.out.println("cant go to main screen");
-            e.printStackTrace();
-            Stage stage = (Stage) onSendComplaintClick.getScene().getWindow();
-            stage.close();
-        }
+        Stage stage = (Stage) onSendComplaintClick.getScene().getWindow();
+        stage.close();
+//        try {
+//            App.setRoot("main");
+//        } catch (Exception e) {
+//            System.out.println("cant go to main screen");
+//            e.printStackTrace();
+//            Stage stage = (Stage) onSendComplaintClick.getScene().getWindow();
+//            stage.close();
+//        }
     }
 
     @Subscribe

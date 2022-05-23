@@ -46,7 +46,6 @@ public class LilachServer extends AbstractServer {
                         System.out.println("posting new complaint:");
                         Complaint complaint = request.getComplaint();
                         entityFactory.createOrUpdateSingleRecord(complaint);
-//                        System.out.println(complaint.getContent());
                     }
                 }
             }catch (Exception e){
@@ -144,7 +143,8 @@ public class LilachServer extends AbstractServer {
                     }
 
                     case "write catalog" ->{
-                        entityFactory.createCatalog();
+//                        entityFactory.createCatalog();
+                        entityFactory.createCatalogFromExistingOne();
                         client.sendToClient("Catalog is created!");
                     }
 

@@ -29,6 +29,8 @@ public class App {
             server = new LilachServer(port);
             System.out.println("SERVER: LISTENING");
             server.listen();
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }

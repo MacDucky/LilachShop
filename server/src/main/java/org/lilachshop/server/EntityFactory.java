@@ -44,6 +44,12 @@ public class EntityFactory {
         Catalog catalog = App.generateCatalog();
         createOrUpdateSingleRecord(catalog);
     }
+    public void createCatalogFromExistingOne(){
+        List<Item> items = getAllRecords(Item.class);
+        Catalog catalog = new Catalog();
+        catalog.setItems(items);
+        createOrUpdateSingleRecord(catalog);
+    }
 
 
     /*
@@ -194,7 +200,7 @@ public class EntityFactory {
 
     private static SessionFactory getSessionFactory() throws HibernateException {
         Configuration configuration = new Configuration();
-        configuration.addAnnotatedClass(ExampleEntity.class).addAnnotatedClass(ExampleEnum.class).addAnnotatedClass(Item.class).addAnnotatedClass(Catalog.class).addAnnotatedClass(Complaint.class);//.addAnnotatedClass(Item.class);
+        configuration.addAnnotatedClass(ExampleEntity.class).addAnnotatedClass(ExampleEnum.class).addAnnotatedClass(Item.class).addAnnotatedClass(Catalog.class).addAnnotatedClass(Complaint.class).addAnnotatedClass(ItemPrice.class);//.addAnnotatedClass(Item.class);
 
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                 .applySettings(configuration.getProperties())
