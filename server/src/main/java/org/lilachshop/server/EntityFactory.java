@@ -32,15 +32,19 @@ public class EntityFactory {    // todo: rollback changes if got an exception! c
         return ef;
     }
 
-    public List<Item> getAllItems(){    // should be gotten from a specific catalog,but currently DB has a single table of Items
+    public List<Item> getAllItems() {    // should be gotten from a specific catalog,but currently DB has a single table of Items
         return getAllRecords(Item.class);
     }
 
-    public List<Complaint> getAllComplaints(){    // should be gotten from a specific catalog,but currently DB has a single table of Items
+    public List<Complaint> getAllComplaints() {    // should be gotten from a specific catalog,but currently DB has a single table of Items
         return getAllRecords(Complaint.class);
     }
 
-    public void createCatalog(){
+    public void createComplaint(Complaint complaint) {
+        createOrUpdateSingleRecord(complaint);
+    }
+
+    public void createCatalog() {
         Catalog catalog = App.generateCatalog();
         createOrUpdateSingleRecord(catalog);
     }

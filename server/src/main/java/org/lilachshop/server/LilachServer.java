@@ -48,7 +48,7 @@ public class LilachServer extends AbstractServer {
                     case "post new complaint" -> {
                         System.out.println("posting new complaint:");
                         Complaint complaint = request.getComplaint();
-                        entityFactory.createOrUpdateSingleRecord(complaint);
+                        entityFactory.createComplaint(complaint);
 //                        System.out.println(complaint.getContent());
                     }
                 }
@@ -67,7 +67,7 @@ public class LilachServer extends AbstractServer {
                     case "reply to customer complaint" -> {
                         Complaint complaint = request.getComplaint();
                         complaint.setStatus("סגור");
-                        entityFactory.createOrUpdateSingleRecord(complaint);
+                        entityFactory.createComplaint(complaint);
                     }
                 }
             } catch (Exception e) {
@@ -117,12 +117,12 @@ public class LilachServer extends AbstractServer {
                         client.sendToClient("This is a reply from LilachServer!");
                     }
 
-                    case "write catalog" ->{
+                    case "write catalog" -> {
                         entityFactory.createCatalog();
                         client.sendToClient("Catalog is created!");
                     }
 
-                    case "get all items" ->{
+                    case "get all items" -> {
                         entityFactory.getAllItems();
                     }
                 }
