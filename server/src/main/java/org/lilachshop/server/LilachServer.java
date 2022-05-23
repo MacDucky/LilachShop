@@ -1,15 +1,21 @@
 package org.lilachshop.server;
 
+import org.lilachshop.entities.Complaint;
 import org.lilachshop.entities.Customer;
 import org.lilachshop.entities.ExampleEntity;
 import org.lilachshop.entities.ExampleEnum;
+import org.lilachshop.entities.Item;
 import org.lilachshop.server.ocsf.AbstractServer;
 import org.lilachshop.server.ocsf.ConnectionToClient;
 import org.lilachshop.requests.*;
 
+import java.util.List;
+
+import java.util.LinkedList;
+import java.util.List;
+
 public class LilachServer extends AbstractServer {
     private static EntityFactory entityFactory;
-    private int message_num = 0;    // this is for the lolz
 
     public LilachServer(Integer... port) {
         // default is 3000, otherwise needs to be specified.
@@ -34,9 +40,40 @@ public class LilachServer extends AbstractServer {
             }
             return;
         }
+        if (msg.getClass().equals(UserComplaintRequest.class)) {
+            UserComplaintRequest request = (UserComplaintRequest) msg;
+            String message_from_client = request.getRequest();
+            try {
+                switch (message_from_client) {
+                    case "post new complaint" -> {
+                        System.out.println("posting new complaint:");
+                        Complaint complaint = request.getComplaint();
+                        entityFactory.createOrUpdateSingleRecord(complaint);
+//                        System.out.println(complaint.getContent());
+                    }
+                }
+            } catch (Exception e) {
 
-
-        if (msg.getClass().equals(EntityDebugRequest.class)) {
+            }
+        } else if (msg.getClass().equals(SupportComplaintRequest.class)) {
+            SupportComplaintRequest request = (SupportComplaintRequest) msg;
+            String message_from_client = request.getRequest();
+            try {
+                switch (message_from_client) {
+                    case "get all complaints" -> {
+                        List<Complaint> complaints = entityFactory.getAllComplaints();
+                        client.sendToClient(complaints);
+                    }
+                    case "reply to customer complaint" -> {
+                        Complaint complaint = request.getComplaint();
+                        complaint.setStatus("סגור");
+                        entityFactory.createOrUpdateSingleRecord(complaint);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (msg.getClass().equals(EntityDebugRequest.class)) {
             EntityDebugRequest request = (EntityDebugRequest) msg;
             String message_from_client = request.getRequest();
             try {
@@ -54,17 +91,15 @@ public class LilachServer extends AbstractServer {
             }
         }
         // debug request
-        if (msg.getClass().equals(DebugRequest.class)) {
+        else if (msg.getClass().equals(DebugRequest.class)) {
             DebugRequest request = (DebugRequest) msg;
             String message_from_client = request.getRequest();
             try {
                 switch (message_from_client) {
                     case "example message" -> {
-                        String[] messages_to_send = {"This is a reply from LilachServer!", "Hi there!", "Stop bugging me!!", "sToP..."};
                         System.out.println("Server: Received a 'example message' from client.");
                         System.out.println("Server: Sending a reply!");
-                        client.sendToClient(messages_to_send[message_num]);
-                        message_num = ++message_num % messages_to_send.length;
+                        client.sendToClient("This is a reply from LilachServer!");
                         System.out.println("Server: Message sent to client.");
                     }
                     case "write entity" -> {
@@ -80,6 +115,15 @@ public class LilachServer extends AbstractServer {
                         ExampleEnum exampleEnumToUpdate = request.getUpdateToEnum();
                         entityFactory.updateExampleEntityEnumByID(id_key, exampleEnumToUpdate);
                         client.sendToClient("This is a reply from LilachServer!");
+                    }
+
+                    case "write catalog" ->{
+                        entityFactory.createCatalog();
+                        client.sendToClient("Catalog is created!");
+                    }
+
+                    case "get all items" ->{
+                        entityFactory.getAllItems();
                     }
                 }
             } catch (Exception e) {

@@ -32,6 +32,20 @@ public class EntityFactory {    // todo: rollback changes if got an exception! c
         return ef;
     }
 
+    public List<Item> getAllItems(){    // should be gotten from a specific catalog,but currently DB has a single table of Items
+        return getAllRecords(Item.class);
+    }
+
+    public List<Complaint> getAllComplaints(){    // should be gotten from a specific catalog,but currently DB has a single table of Items
+        return getAllRecords(Complaint.class);
+    }
+
+    public void createCatalog(){
+        Catalog catalog = App.generateCatalog();
+        createOrUpdateSingleRecord(catalog);
+    }
+
+
     /*
      *****************************************   Entity Methods   ******************************************************
      */
@@ -40,6 +54,7 @@ public class EntityFactory {    // todo: rollback changes if got an exception! c
     public List<ExampleEntity> getAllExampleEntities() {
         return getAllRecords(ExampleEntity.class);
     }
+
 
     // Usage of query API
     public ExampleEntity getSingleExampleEntityRecord(int entityID) {
@@ -185,7 +200,7 @@ public class EntityFactory {    // todo: rollback changes if got an exception! c
         configuration.addAnnotatedClass(ExampleEntity.class).addAnnotatedClass(ExampleEnum.class).addAnnotatedClass(AccountType.class)
                 .addAnnotatedClass(Address.class).addAnnotatedClass(CreditCard.class).addAnnotatedClass(Customer.class)
                 .addAnnotatedClass(Employee.class).addAnnotatedClass(EmployeeRole.class).addAnnotatedClass(Store.class).
-                addAnnotatedClass(User.class);
+                addAnnotatedClass(User.class).addAnnotatedClass(Item.class).addAnnotatedClass(Catalog.class).addAnnotatedClass(Complaint.class);
 
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                 .applySettings(configuration.getProperties())
