@@ -1,5 +1,6 @@
 package org.lilachshop.server;
 
+import org.lilachshop.entities.Customer;
 import org.lilachshop.entities.ExampleEntity;
 import org.lilachshop.entities.ExampleEnum;
 import org.lilachshop.server.ocsf.AbstractServer;
@@ -8,6 +9,7 @@ import org.lilachshop.requests.*;
 
 public class LilachServer extends AbstractServer {
     private static EntityFactory entityFactory;
+    private int message_num = 0;    // this is for the lolz
 
     public LilachServer(Integer... port) {
         // default is 3000, otherwise needs to be specified.
@@ -33,6 +35,24 @@ public class LilachServer extends AbstractServer {
             return;
         }
 
+
+        if (msg.getClass().equals(EntityDebugRequest.class)) {
+            EntityDebugRequest request = (EntityDebugRequest) msg;
+            String message_from_client = request.getRequest();
+            try {
+                switch (message_from_client) {
+                    case "add customer" -> {
+                        Customer customer = request.getCustomer();
+                        entityFactory.addCustomer(customer);
+                        client.sendToClient("ok");
+                    }
+
+                    default -> client.sendToClient("not ok");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         // debug request
         if (msg.getClass().equals(DebugRequest.class)) {
             DebugRequest request = (DebugRequest) msg;
@@ -40,9 +60,11 @@ public class LilachServer extends AbstractServer {
             try {
                 switch (message_from_client) {
                     case "example message" -> {
+                        String[] messages_to_send = {"This is a reply from LilachServer!", "Hi there!", "Stop bugging me!!", "sToP..."};
                         System.out.println("Server: Received a 'example message' from client.");
                         System.out.println("Server: Sending a reply!");
-                        client.sendToClient("This is a reply from LilachServer!");
+                        client.sendToClient(messages_to_send[message_num]);
+                        message_num = ++message_num % messages_to_send.length;
                         System.out.println("Server: Message sent to client.");
                     }
                     case "write entity" -> {
@@ -64,7 +86,6 @@ public class LilachServer extends AbstractServer {
                 System.out.println("Failed sending reply to client.");
                 e.printStackTrace();
             }
-
         }
     }
 

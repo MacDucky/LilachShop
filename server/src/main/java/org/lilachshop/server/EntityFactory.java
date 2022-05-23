@@ -8,8 +8,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import org.hibernate.service.ServiceRegistry;
-import org.lilachshop.entities.ExampleEntity;
-import org.lilachshop.entities.ExampleEnum;
+import org.lilachshop.entities.*;
 
 import javax.persistence.criteria.*;
 import java.util.LinkedList;
@@ -18,7 +17,7 @@ import java.util.List;
 /**
  * Hello world!
  */
-public class EntityFactory {
+public class EntityFactory {    // todo: rollback changes if got an exception! check prototype for reference.
     private static EntityFactory ef = null;    // Singleton, creating a SessionFactory is a heavy operation!
     private final SessionFactory sf;
 
@@ -67,6 +66,9 @@ public class EntityFactory {
         deleteRecord(ExampleEntity.class, "entity_id", entityID);
     }
 
+    public void addCustomer(Customer customer) {
+        createOrUpdateSingleRecord(customer);
+    }
 
 
     /*
@@ -180,7 +182,10 @@ public class EntityFactory {
 
     private static SessionFactory getSessionFactory() throws HibernateException {
         Configuration configuration = new Configuration();
-        configuration.addAnnotatedClass(ExampleEntity.class).addAnnotatedClass(ExampleEnum.class);//.addAnnotatedClass(Item.class);
+        configuration.addAnnotatedClass(ExampleEntity.class).addAnnotatedClass(ExampleEnum.class).addAnnotatedClass(AccountType.class)
+                .addAnnotatedClass(Address.class).addAnnotatedClass(CreditCard.class).addAnnotatedClass(Customer.class)
+                .addAnnotatedClass(Employee.class).addAnnotatedClass(EmployeeRole.class).addAnnotatedClass(Store.class).
+                addAnnotatedClass(User.class);
 
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                 .applySettings(configuration.getProperties())
