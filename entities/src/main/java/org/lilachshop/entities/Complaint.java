@@ -11,22 +11,27 @@ public class Complaint implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    String creationDate;
     String endOfHandleDate;
     String status;
-    String complaintNumber;
     String content;
+    String reply;
+
+    @OneToOne
+    Order order;
 
     public Complaint() {}
 
-    public String getComplaintNumber() {
-        return complaintNumber;
+    public int getId() {
+        return id;
     }
 
-    public Complaint(String endOfHandleDate, String status, String complaintNumber, String content) {
+    public Complaint(String endOfHandleDate, String status, String content, String creationDate, String reply) {
         this.endOfHandleDate = endOfHandleDate;
         this.status = status;
-        this.complaintNumber = complaintNumber;
         this.content = content;
+        this.creationDate = creationDate;
+        this.reply = reply;
     }
 
     public String getCreationDate() {
@@ -53,7 +58,4 @@ public class Complaint implements Serializable {
         this.content = content;
     }
 
-    public void setComplaintNumber(String complaintNumber) {
-        this.complaintNumber = complaintNumber;
-    }
 }
