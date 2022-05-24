@@ -45,7 +45,9 @@ public class DeliveryDetails {
         return address;
     }
 
-
+    public void setOrder(Order order) {
+        this.order = order;
+    }
 
     protected DeliveryDetails() {
     }
