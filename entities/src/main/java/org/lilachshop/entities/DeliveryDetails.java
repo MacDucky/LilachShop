@@ -2,20 +2,23 @@ package org.lilachshop.entities;
 
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 
+@Transactional
 @Entity
 @Table(name = "DeliveryDetails")
 public class DeliveryDetails {
     @Id
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+//    @Column(name = "id", nullable = false)
+    private int id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     Order order;
 
     String DeliveryTime;
 
-    public DeliveryDetails(String deliveryDate, String deliveryTime, String phoneNumber, String receiverName, String address) {
+    public DeliveryDetails(String deliveryTime, String phoneNumber, String receiverName, String address) {
         DeliveryTime = deliveryTime;
         this.phoneNumber = phoneNumber;
         this.receiverName = receiverName;
@@ -51,11 +54,11 @@ public class DeliveryDetails {
     String receiverName;
     String address;
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

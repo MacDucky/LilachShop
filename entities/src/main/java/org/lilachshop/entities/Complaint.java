@@ -1,8 +1,9 @@
 package org.lilachshop.entities;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.io.Serializable;
-
+@Transactional
 @Entity
 @Table(name = "Complaint")
 public class Complaint implements Serializable {
@@ -17,7 +18,7 @@ public class Complaint implements Serializable {
     String content;
     String reply;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     Order order;
 
     public Complaint() {}

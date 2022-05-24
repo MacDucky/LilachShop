@@ -1,28 +1,46 @@
 package org.lilachshop.entities;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.List;
-
+@Transactional
 @Entity
 @Table(name = "Orders")
 public class Order {
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+//    @Column(name = "id", nullable = false)
     private Long id;
+
+    public Order(String creationDate, String greetingCard, List<Item> items, int totalPrice, int amountOfProducts, DeliveryDetails deliveryDetails, PickUpDetails pickUpDetails, Complaint complaint) {
+        this.creationDate = creationDate;
+        this.greetingCard = greetingCard;
+        this.items = items;
+        this.totalPrice = totalPrice;
+        this.amountOfProducts = amountOfProducts;
+        this.deliveryDetails = deliveryDetails;
+        this.pickUpDetails = pickUpDetails;
+        this.complaint = complaint;
+    }
 
     String creationDate;
     String greetingCard;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     List<Item> items;
     int totalPrice;
     int amountOfProducts;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     DeliveryDetails deliveryDetails;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     PickUpDetails pickUpDetails;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     Complaint complaint;
+
+    protected Order() {
+
+    }
+
     public Long getId() {
         return id;
     }
