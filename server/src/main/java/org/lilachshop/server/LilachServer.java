@@ -142,13 +142,16 @@ public class LilachServer extends AbstractServer {
                     case "write catalog" ->{
 //                        entityFactory.createCatalog();
 //                        entityFactory.createCatalogFromExistingOne();
-                        //todo: make successful queries from database!
                         entityFactory.fillDataBase();
-                        List<Store> stores = entityFactory.getStores();
-                        Store store1 = stores.get(0);
-                        List<Order> orders = store1.getOrders();
-                        List<Complaint> store1Complaints = store1.getComplaints();
-                        System.out.println(store1Complaints.get(0).getContent());
+                        List<Employee> employees = entityFactory.getEmployees();
+                        List<Complaint> complaints = entityFactory.getComplaints();
+                        List<Order> orders = entityFactory.getOrders();
+                        //todo: make successful queries from database!
+//                        List<Store> stores = entityFactory.getStores();
+//                        Store store1 = stores.get(0);
+//                        List<Order> orders = store1.getOrders();
+//                        List<Complaint> store1Complaints = store1.getComplaints();
+//                        System.out.println(store1Complaints.get(0).getContent());
                         client.sendToClient("Catalog is created!");
                     }
 

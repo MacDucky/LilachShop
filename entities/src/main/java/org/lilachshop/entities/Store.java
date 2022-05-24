@@ -1,10 +1,13 @@
 package org.lilachshop.entities;
 
+import lombok.ToString;
+
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.util.List;
 @Transactional
 @Entity
+@ToString
 @Table(name = "Stores")
 public class Store {
     @Id
@@ -54,10 +57,20 @@ public class Store {
     Catalog catalog;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @ToString.Exclude
     List<Complaint> complaints;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @ToString.Exclude
     List<Order> orders;
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public void setComplaints(List<Complaint> complaints) {
+        this.complaints = complaints;
+    }
 
     public void addComplaint(Complaint complaint){
         this.complaints.add(complaint);

@@ -1,9 +1,6 @@
 package org.lilachshop.server;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
@@ -67,8 +64,8 @@ public class EntityFactory {
         Store store1 = new Store( "חיפה, דרך אבא חושי 1", "לילך חיפה", catalog1, new ArrayList<Complaint>(), new ArrayList<Order>());
         Store store2 = new Store( "הרצליה, דרך הים 41", "לילך הרצליה", catalog2, new ArrayList<Complaint>(), new ArrayList<Order>());
         Store store3 = new Store( "תל אביב, דיזינגוף 52", "לילך תל אביב", catalog3, new ArrayList<Complaint>(), new ArrayList<Order>());
-        addComplaintsToStores(store1, store2, store3);
         addOredersToStoresStore(store1, store2, store3);
+        addComplaintsToStores(store1, store2, store3);
         createOrUpdateSingleRecord(store1);
         createOrUpdateSingleRecord(store2);
         createOrUpdateSingleRecord(store3);
@@ -110,35 +107,45 @@ public class EntityFactory {
         Complaint complaint2 = new Complaint(time, "פתוח", "אני כועס מאוד על השירות בחיפה2", time, "");
         Complaint complaint3 = new Complaint(time, "פתוח", "אני כועס מאוד על השירות בחיפה3", time, "");
 
-        Complaint complaint4 = new Complaint(time, "פתוח", "אני כועס מאוד על השירות בהרצליה1", time, "");
-        Complaint complaint5 = new Complaint(time, "פתוח", "אני כועס מאוד על השירות בהרצליה2", time, "");
-        Complaint complaint6 = new Complaint(time, "פתוח", "אני כועס מאוד על השירות בהרצליה3", time, "");
+//        Complaint complaint4 = new Complaint(time, "פתוח", "אני כועס מאוד על השירות בהרצליה1", time, "");
+//        Complaint complaint5 = new Complaint(time, "פתוח", "אני כועס מאוד על השירות בהרצליה2", time, "");
+//        Complaint complaint6 = new Complaint(time, "פתוח", "אני כועס מאוד על השירות בהרצליה3", time, "");
+//
+//
+//
+//        Complaint complaint7 = new Complaint(time, "פתוח", "אני כועס מאוד על השירות בתל אביב1", time, "");
+//        Complaint complaint8 = new Complaint(time, "פתוח", "אני כועס מאוד על השירות בתל אביב2", time, "");
 
-
-
-        Complaint complaint7 = new Complaint(time, "פתוח", "אני כועס מאוד על השירות בתל אביב1", time, "");
-        Complaint complaint8 = new Complaint(time, "פתוח", "אני כועס מאוד על השירות בתל אביב2", time, "");
+        complaint1.setOrder(store1.getOrders().get(0));
+        complaint1.setStore(store1);
+        createOrUpdateSingleRecord(store1);
+        complaint2.setOrder(store1.getOrders().get(1));
+        complaint2.setStore(store1);
+        createOrUpdateSingleRecord(store1);
+        complaint3.setOrder(store2.getOrders().get(0));
+        complaint3.setStore(store2);
+        createOrUpdateSingleRecord(store2);
 
         createOrUpdateSingleRecord(complaint1);
         createOrUpdateSingleRecord(complaint2);
         createOrUpdateSingleRecord(complaint3);
-        createOrUpdateSingleRecord(complaint4);
-        createOrUpdateSingleRecord(complaint5);
-        createOrUpdateSingleRecord(complaint6);
-        createOrUpdateSingleRecord(complaint7);
-        createOrUpdateSingleRecord(complaint8);
+//        createOrUpdateSingleRecord(complaint4);
+//        createOrUpdateSingleRecord(complaint5);
+//        createOrUpdateSingleRecord(complaint6);
+//        createOrUpdateSingleRecord(complaint7);
+//        createOrUpdateSingleRecord(complaint8);
 
 
         store1.addComplaint(complaint1);
         store1.addComplaint(complaint2);
         store1.addComplaint(complaint3);
-
-        store2.addComplaint(complaint4);
-        store2.addComplaint(complaint5);
-        store2.addComplaint(complaint6);
-
-        store3.addComplaint(complaint7);
-        store3.addComplaint(complaint8);
+//
+//        store2.addComplaint(complaint4);
+//        store2.addComplaint(complaint5);
+//        store2.addComplaint(complaint6);
+//
+//        store3.addComplaint(complaint7);
+//        store3.addComplaint(complaint8);
     }
     public void addOredersToStoresStore(Store store1, Store store2, Store store3){
         Date dt = new Date();
@@ -204,6 +211,17 @@ public class EntityFactory {
         return getAllRecords(Store.class);
     }
 
+    public List<Employee> getEmployees(){
+        return getAllRecords(Employee.class);
+    }
+    public List<Complaint> getComplaints(){
+        return getAllRecords(Complaint.class);
+    }
+    public List<Order> getOrders(){
+        return getAllRecords(Order.class);
+    }
+
+
     /*
      *****************************************   Entity Methods   ******************************************************
      */
@@ -259,6 +277,7 @@ public class EntityFactory {
      */
     private <T> List<T> getAllRecords(Class<T> entityClass) {
         Session session = sf.openSession();
+
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(entityClass);
 
