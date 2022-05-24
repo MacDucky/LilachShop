@@ -44,7 +44,7 @@ public class App {
 
     }
 
-    private static List<Item> createItemList() {
+    public static List<Item> createItemList() {
         Item item;
         List<Item> itemList = new ArrayList<>();
         //    for (int i = 0; i < 5; i++) {

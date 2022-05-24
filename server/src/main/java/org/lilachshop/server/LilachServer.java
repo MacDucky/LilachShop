@@ -1,9 +1,6 @@
 package org.lilachshop.server;
 
-import org.lilachshop.entities.Complaint;
-import org.lilachshop.entities.ExampleEntity;
-import org.lilachshop.entities.ExampleEnum;
-import org.lilachshop.entities.Item;
+import org.lilachshop.entities.*;
 import org.lilachshop.server.ocsf.AbstractServer;
 import org.lilachshop.server.ocsf.ConnectionToClient;
 import org.lilachshop.requests.*;
@@ -143,8 +140,15 @@ public class LilachServer extends AbstractServer {
                     }
 
                     case "write catalog" ->{
-                        entityFactory.createCatalog();
+//                        entityFactory.createCatalog();
 //                        entityFactory.createCatalogFromExistingOne();
+                        //todo: make successful queries from database!
+                        entityFactory.fillDataBase();
+                        List<Store> stores = entityFactory.getStores();
+                        Store store1 = stores.get(0);
+                        List<Order> orders = store1.getOrders();
+                        List<Complaint> store1Complaints = store1.getComplaints();
+                        System.out.println(store1Complaints.get(0).getContent());
                         client.sendToClient("Catalog is created!");
                     }
 
