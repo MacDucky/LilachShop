@@ -8,11 +8,6 @@ import java.io.Serializable;
 @Entity
 @Table(name = "Employees")
 public class Employee extends User implements Serializable {
-//    @Id
-//    @GeneratedValue(strategy=GenerationType.IDENTITY)
-//    @Column(name = "id", nullable = false)
-//    private Long id;
-
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "store_id", nullable = false)
@@ -21,20 +16,13 @@ public class Employee extends User implements Serializable {
     @Enumerated(EnumType.STRING)
     Role role;
 
-//    public Long getId() {
-//        return id;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
-
     public Employee(Store store, Role role, String userName, String userPassword) {
         super();
         this.store = store;
         this.role = role;
         this.userName = userName;
         this.userPassword = userPassword;
+
     }
 
     protected Employee() {

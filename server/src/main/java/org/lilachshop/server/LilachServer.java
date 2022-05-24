@@ -1,9 +1,6 @@
 package org.lilachshop.server;
 
-import org.lilachshop.entities.Complaint;
-import org.lilachshop.entities.ExampleEntity;
-import org.lilachshop.entities.ExampleEnum;
-import org.lilachshop.entities.Item;
+import org.lilachshop.entities.*;
 import org.lilachshop.server.ocsf.AbstractServer;
 import org.lilachshop.server.ocsf.ConnectionToClient;
 import org.lilachshop.requests.*;
@@ -63,6 +60,7 @@ public class LilachServer extends AbstractServer {
                     }
                     case "reply to customer complaint" -> {
                         Complaint complaint = request.getComplaint();
+                        complaint.setStatus("סגור");
                         entityFactory.addComplaint(complaint);
                     }
                 }
@@ -142,7 +140,14 @@ public class LilachServer extends AbstractServer {
                     }
 
                     case "write catalog" -> {
-                        entityFactory.createCatalog();
+//                        entityFactory.createCatalog();
+//                        entityFactory.createCatalogFromExistingOne();
+                        entityFactory.fillDataBase();
+                        List<Store> stores = entityFactory.getAllStores();
+                        List<Customer> customers = entityFactory.getCustomers();
+                        List<Employee> employees = entityFactory.getAllEmployees();
+                        List<Complaint> complaints = entityFactory.getAllComplaints();
+                        List<Order> orders = entityFactory.getAllOrders();
                         client.sendToClient("Catalog is created!");
                     }
 

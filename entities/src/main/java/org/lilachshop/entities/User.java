@@ -5,9 +5,6 @@ import javax.transaction.Transactional;
 import java.io.Serializable;
 
 @Transactional
-//@Entity
-//@Table(name = "Users")
-//@Inheritance(strategy = InheritanceType.JOINED)
 @MappedSuperclass
 public class User implements Serializable {
     @Id
@@ -22,6 +19,7 @@ public class User implements Serializable {
 
     protected User() {
     }
+
 
     String userName;
     String userPassword;
