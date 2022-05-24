@@ -1,13 +1,15 @@
 package org.lilachshop.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.transaction.Transactional;
 
-
+@Transactional
+@Entity
+@Table(name = "Users")
 public class User {
-
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     public User(String userName, String userPassword) {
@@ -15,13 +17,19 @@ public class User {
         this.userPassword = userPassword;
     }
 
-    public User() {
+    protected User() {}
 
-    }
+
+
+
+    String userName;
+    String userPassword;
 
     public Long getId() {
         return id;
     }
-    String userName;
-    String userPassword;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

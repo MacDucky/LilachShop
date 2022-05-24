@@ -143,6 +143,8 @@ public class LilachServer extends AbstractServer {
 //                        entityFactory.createCatalog();
 //                        entityFactory.createCatalogFromExistingOne();
                         entityFactory.fillDataBase();
+                        List<Store> stores = entityFactory.getStores();
+                        List<Customer> customers = entityFactory.getCustomers();
                         List<Employee> employees = entityFactory.getEmployees();
                         List<Complaint> complaints = entityFactory.getComplaints();
                         List<Order> orders = entityFactory.getOrders();

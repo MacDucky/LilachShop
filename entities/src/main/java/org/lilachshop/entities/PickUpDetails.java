@@ -37,6 +37,10 @@ public class PickUpDetails {
         return id;
     }
 
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

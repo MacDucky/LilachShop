@@ -14,7 +14,6 @@ public class Employee extends User {
 
     @ManyToOne(cascade = CascadeType.ALL)
     Store store;
-    // todo: add role
     Role role;
 
     public Long getId() {
@@ -31,7 +30,6 @@ public class Employee extends User {
         this.role = role;
         this.userName = userName;
         this.userPassword = userPassword;
-
     }
 
     protected Employee() {

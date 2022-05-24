@@ -12,7 +12,7 @@ public class Order {
 //    @Column(name = "id", nullable = false)
     private Long id;
 
-    public Order(String creationDate, String greetingCard, List<Item> items, int totalPrice, int amountOfProducts, DeliveryDetails deliveryDetails, PickUpDetails pickUpDetails, Complaint complaint) {
+    public Order(String creationDate, String greetingCard, List<Item> items, int totalPrice, int amountOfProducts, DeliveryDetails deliveryDetails, PickUpDetails pickUpDetails, Complaint complaint, Customer customer) {
         this.creationDate = creationDate;
         this.greetingCard = greetingCard;
         this.items = items;
@@ -21,11 +21,12 @@ public class Order {
         this.deliveryDetails = deliveryDetails;
         this.pickUpDetails = pickUpDetails;
         this.complaint = complaint;
+        this.customer = customer;
     }
 
     String creationDate;
     String greetingCard;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     List<Item> items;
     int totalPrice;
     int amountOfProducts;
@@ -36,6 +37,9 @@ public class Order {
 
     @OneToOne(cascade = CascadeType.ALL)
     Complaint complaint;
+
+    @ManyToOne
+    Customer customer;
 
     protected Order() {
 
