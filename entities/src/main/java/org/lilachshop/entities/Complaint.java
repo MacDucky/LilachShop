@@ -1,5 +1,7 @@
 package org.lilachshop.entities;
 
+import lombok.ToString;
+
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
@@ -20,6 +22,18 @@ public class Complaint implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL)
     Order order;
+
+    @ManyToOne
+    @JoinColumn(name = "store_id")
+    private Store store;
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
 
     public Complaint() {}
 
@@ -49,6 +63,10 @@ public class Complaint implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public String getContent() {
