@@ -48,6 +48,7 @@ public class CustomerServiceViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb){
+
         complaintNumber.setCellValueFactory(new PropertyValueFactory<Complaint, String>("complaintNumber"));
         content.setCellValueFactory(new PropertyValueFactory<Complaint, String>("content"));
         creationDate.setCellValueFactory(new PropertyValueFactory<Complaint, String>("creationDate"));
@@ -96,6 +97,8 @@ public class CustomerServiceViewController implements Initializable {
     }
 
     private void presentRowSelected() throws IOException {
+        if (listOfComplaints.isEmpty())
+            return;
         ObservableList<Complaint> listOfComplaints = tableView.getSelectionModel().getSelectedItems();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("complaintWorkerResponse.fxml"));
         Parent root1 = (Parent) fxmlLoader.load();

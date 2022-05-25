@@ -57,6 +57,7 @@ public class ComplaintController implements Initializable {
 //            Stage stage = (Stage) onSendComplaintClick.getScene().getWindow();
 //            stage.close();
 //        }
+
     }
 
     @Subscribe

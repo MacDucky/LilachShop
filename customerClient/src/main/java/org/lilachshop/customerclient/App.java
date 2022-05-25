@@ -16,6 +16,12 @@ public class App extends Application {
 
     private static Scene scene;
 
+    public static Stage getStage() {
+        return stage;
+    }
+
+    private static Stage stage;
+
     @Override
     public void init() throws Exception {
         System.out.println("Starting customer application...");

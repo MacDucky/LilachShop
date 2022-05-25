@@ -268,6 +268,7 @@ public class EntityFactory {
     public List<Order> getOrders(){return getAllRecords(Order.class);}
 
 
+
     /*
      *****************************************   Entity Methods   ******************************************************
      */
@@ -418,6 +419,7 @@ public class EntityFactory {
     private static SessionFactory getSessionFactory() throws HibernateException {
         Configuration configuration = new Configuration();
         configuration.addAnnotatedClass(ExampleEntity.class).addAnnotatedClass(ExampleEnum.class).addAnnotatedClass(Item.class).addAnnotatedClass(Catalog.class).addAnnotatedClass(Complaint.class).addAnnotatedClass(DeliveryDetails.class).addAnnotatedClass(PickUpDetails.class).addAnnotatedClass(Order.class).addAnnotatedClass(Store.class).addAnnotatedClass(User.class).addAnnotatedClass(Employee.class).addAnnotatedClass(Customer.class).addAnnotatedClass(CreditCard.class).addAnnotatedClass(Account.class);
+
 
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                 .applySettings(configuration.getProperties())

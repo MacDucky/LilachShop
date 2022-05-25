@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 @Transactional
+
 @Entity
 @Table(name = "Complaint")
 public class Complaint implements Serializable {
@@ -76,5 +77,4 @@ public class Complaint implements Serializable {
     public void setContent(String content) {
         this.content = content;
     }
-
 }

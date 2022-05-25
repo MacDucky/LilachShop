@@ -47,6 +47,7 @@ public class LilachServer extends AbstractServer {
                 }
             }catch (Exception e){
                 e.printStackTrace();
+
             }
         }
         if(msg.getClass().equals(SupportComplaintRequest.class)){
@@ -153,6 +154,7 @@ public class LilachServer extends AbstractServer {
 //                        List<Order> orders = store1.getOrders();
 //                        List<Complaint> store1Complaints = store1.getComplaints();
 //                        System.out.println(store1Complaints.get(0).getContent());
+
                         client.sendToClient("Catalog is created!");
                     }
 
