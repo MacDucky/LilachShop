@@ -3,12 +3,13 @@ package org.lilachshop.entities;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
+import java.io.Serializable;
 import java.util.List;
 
 @Transactional
 @Entity
 @Table(name = "Customers")
-public class Customer extends User{
+public class Customer extends User implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

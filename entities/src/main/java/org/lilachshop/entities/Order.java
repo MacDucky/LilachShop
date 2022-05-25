@@ -2,11 +2,12 @@ package org.lilachshop.entities;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
+import java.io.Serializable;
 import java.util.List;
 @Transactional
 @Entity
 @Table(name = "Orders")
-public class Order {
+public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 //    @Column(name = "id", nullable = false)

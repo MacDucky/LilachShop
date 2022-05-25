@@ -46,7 +46,7 @@ public class LilachServer extends AbstractServer {
                     }
                 }
             }catch (Exception e){
-
+                e.printStackTrace();
             }
         }
         if(msg.getClass().equals(SupportComplaintRequest.class)){
@@ -60,7 +60,6 @@ public class LilachServer extends AbstractServer {
                     }
                     case "reply to customer complaint"->{
                         Complaint complaint = request.getComplaint();
-                        complaint.setStatus("סגור");
                         entityFactory.createOrUpdateSingleRecord(complaint);
                     }
                 }
