@@ -3,11 +3,12 @@ package org.lilachshop.entities;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
+import java.io.Serializable;
 
 @Transactional
 @Entity
 @Table(name = "DeliveryDetails")
-public class DeliveryDetails {
+public class DeliveryDetails implements Serializable{
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 //    @Column(name = "id", nullable = false)
