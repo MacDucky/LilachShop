@@ -1,18 +1,18 @@
 package org.lilachshop.entities;
 
 
-
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.List;
+
 @Transactional
 @Entity
 @Table(name = "Stores")
 public class Store implements Serializable {
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     protected Store() {
@@ -72,10 +72,11 @@ public class Store implements Serializable {
         this.complaints = complaints;
     }
 
-    public void addComplaint(Complaint complaint){
+    public void addComplaint(Complaint complaint) {
         this.complaints.add(complaint);
     }
-    public void addOrder(Order order){
+
+    public void addOrder(Order order) {
         this.orders.add(order);
     }
 
