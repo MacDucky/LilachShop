@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class Item implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(name = "item_name")
     private String name;
@@ -20,6 +20,18 @@ public class Item implements Serializable {
     @ManyToOne(optional = false)
     @JoinColumn(name = "catalog_id")
     private Catalog catalog;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id")
+    private Order order;
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
 
     public Catalog getCatalog() {
         return catalog;
@@ -39,11 +51,11 @@ public class Item implements Serializable {
     }
 
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -77,5 +89,17 @@ public class Item implements Serializable {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Item)) return false;
+        return id != null && id == ((Item) o).getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

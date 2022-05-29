@@ -3,33 +3,34 @@ package org.lilachshop.entities;
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
+import java.time.LocalDate;
 
-@Transactional
-@Entity
-@Table(name = "Accounts")
+@Embeddable
 public class Account implements Serializable {
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
 
-    String creationDate;
+    @Column(updatable = false)
+    LocalDate creationDate;
+
+    @Enumerated(EnumType.STRING)
     AccountType accountType;
 
-    public Long getId() {
-        return id;
+    protected Account() {
     }
 
-
-    protected Account() {}
+    public Account(AccountType accountType) {
+        this.creationDate = LocalDate.now();
+        this.accountType = accountType;
+    }
 
     public AccountType getAccountType() {
         return accountType;
     }
 
-
-    public Account(String creationDate, AccountType accountType) {
-        this.creationDate = creationDate;
+    public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
+    }
+
+    public LocalDate getCreationDate() {
+        return creationDate;
     }
 }

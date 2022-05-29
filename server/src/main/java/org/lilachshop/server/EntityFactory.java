@@ -60,13 +60,39 @@ public class EntityFactory {
         return getAllRecords(Catalog.class);
     }
 
-    public void addShop(Store store) {
+    public void addStore(Store store) {
         createOrUpdateSingleRecord(store);
     }
 
+    public List<Store> getAllStores() {
+        return getAllRecords(Store.class);
+    }
+
+    public Store getStoreByID(long storeID) {
+        return getSingleRecord(Store.class, "id", storeID);
+    }
+
+    public void addEmployee(Employee employee) {
+        createOrUpdateSingleRecord(employee);
+    }
+
+    public void addComplaint(Complaint complaint) {
+        createOrUpdateSingleRecord(complaint);
+    }
+
+    public void addCustomer(Customer customer) {
+        createOrUpdateSingleRecord(customer);
+    }
+
+    public Customer getCustomerByID(Long id) {
+        return getSingleRecord(Customer.class, "id", id);
+    }
+
+
+
 
     /*
-     *****************************************   Entity Methods   ******************************************************
+     *****************************************   Entity Methods Examples   *********************************************
      */
 
     // Usage of query API
@@ -132,7 +158,7 @@ public class EntityFactory {
         return result;
     }
 
-    private <T, S> T getSingleRecord(Class<T> entityClass, String keyColumn, S key) { // todo: test this
+    private <T, S> T getSingleRecord(Class<T> entityClass, String keyColumn, S key) {
         Session session = sf.openSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(entityClass);
@@ -153,15 +179,29 @@ public class EntityFactory {
      * @param entityToCreate Entity record to add
      * @param <T>            Entity type
      */
-    <T> void createOrUpdateSingleRecord(T entityToCreate) {
-        Session session = sf.openSession();
-        Transaction transaction = session.beginTransaction();
-        session.flush();
+    private <T> void createOrUpdateSingleRecord(T entityToCreate) {
+        Session session = null;
+        try {
+            session = sf.openSession();
+            Transaction transaction = session.beginTransaction();
+            session.flush();
 
-        session.saveOrUpdate(entityToCreate);
+            session.saveOrUpdate(entityToCreate);
 
-        transaction.commit();
-        session.close();
+            transaction.commit();
+        } catch (Exception e) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.out.println("Update Operation failed, changes rolled back.");
+            e.printStackTrace();
+        } finally {
+            if (session != null)
+                try {
+                    session.close();
+                } catch (Exception ignored) {
+                }
+        }
     }
 
     /**
@@ -177,17 +217,32 @@ public class EntityFactory {
      * @param keyColumn          Key column name to match where to update
      */
     private <T, S, K> void updateRecordField(Class<T> entityClass, String mutateAttribColumn, S valueToSet, K key, String keyColumn) {
-        Session session = sf.openSession(); // todo: add exception handling
-        CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaUpdate<T> cu = cb.createCriteriaUpdate(entityClass);
-        Root<T> root = cu.from(entityClass);
-        cu.set(root.get(mutateAttribColumn), valueToSet);
-        cu.where(cb.equal(root.get(keyColumn), key));
-        session.flush();
-        Transaction transaction = session.beginTransaction();
-        session.createQuery(cu).executeUpdate();
-        transaction.commit();
-        session.close();
+        Session session = null;
+        try {
+            session = sf.openSession(); // todo: add exception handling
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaUpdate<T> cu = cb.createCriteriaUpdate(entityClass);
+            Root<T> root = cu.from(entityClass);
+            cu.set(root.get(mutateAttribColumn), valueToSet);
+            cu.where(cb.equal(root.get(keyColumn), key));
+            session.flush();
+            Transaction transaction = session.beginTransaction();
+            session.createQuery(cu).executeUpdate();
+            transaction.commit();
+            session.close();
+        } catch (Exception e) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.out.println("Update Operation failed, changes rolled back.");
+            e.printStackTrace();
+        } finally {
+            if (session != null)
+                try {
+                    session.close();
+                } catch (Exception ignored) {
+                }
+        }
     }
 
     /**
@@ -200,21 +255,34 @@ public class EntityFactory {
      * @param <S>         Value type of object to be checked
      */
     private <T, S> void deleteRecord(Class<T> entityClass, String keyColumn, S key) {   //todo: test this
-        Session session = sf.openSession();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaDelete<T> cd = cb.createCriteriaDelete(entityClass);
-        Root<T> root = cd.from(entityClass);
-        cd.where(cb.equal(root.get(keyColumn), key));
+        Session session = null;
+        try {
+            session = sf.openSession();
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaDelete<T> cd = cb.createCriteriaDelete(entityClass);
+            Root<T> root = cd.from(entityClass);
+            cd.where(cb.equal(root.get(keyColumn), key));
 
-        Transaction transaction = session.beginTransaction();
-        session.createQuery(cd).executeUpdate();
-        transaction.commit();
-        session.close();
+            Transaction transaction = session.beginTransaction();
+            session.createQuery(cd).executeUpdate();
+            transaction.commit();
+        } catch (Exception e) {
+            if (session != null)
+                session.getTransaction().rollback();
+            System.out.println("Delete Operation failed, changes rolled back.");
+            e.printStackTrace();
+        } finally {
+            try {
+                if (session != null)
+                    session.close();
+            } catch (Exception ignored) {
+            }
+        }
     }
 
     private static Set<Class<?>> classesToAnnotate;
 
-    private static void collectClasses() {
+    private static void collectClassesToAnnotate() {
         String pkgToScan = "org.lilachshop.entities";
         Reflections reflections = new Reflections(
                 new ConfigurationBuilder()
@@ -225,7 +293,7 @@ public class EntityFactory {
 
     private static SessionFactory getSessionFactory() throws HibernateException {
         Configuration configuration = new Configuration();
-        collectClasses();
+        collectClassesToAnnotate();
         classesToAnnotate.forEach(configuration::addAnnotatedClass);
 //        configuration.addAnnotatedClass(ExampleEntity.class).addAnnotatedClass(ExampleEnum.class).addAnnotatedClass(Item.class).addAnnotatedClass(Catalog.class).addAnnotatedClass(Complaint.class);//.addAnnotatedClass(Item.class);
 

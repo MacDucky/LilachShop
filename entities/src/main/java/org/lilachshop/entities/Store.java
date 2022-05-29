@@ -39,11 +39,12 @@ public class Store implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     Catalog catalog;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true) // if store is removed, so will its complaints.
-    @JoinColumn(name = "store_id")
-    List<Complaint> complaints = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "id", orphanRemoval = true)
+    // if store is removed, so will its complaints.
+//    @JoinColumn(name = "store_id")
+    List<Complaint> complaints;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "id", targetEntity = Order.class)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "id", orphanRemoval = true)
     List<Order> orders;
 
     public String getAddress() {

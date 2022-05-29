@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Table(name = "CreditCard")
 public class CreditCard implements Serializable {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -17,7 +17,7 @@ public class CreditCard implements Serializable {
     String expDate;
     String threeDigits;
 
-    @OneToOne(mappedBy = "card")
+    @OneToOne(mappedBy = "card", optional = false)
     Customer customer;
 
     public Long getId() {
@@ -48,5 +48,8 @@ public class CreditCard implements Serializable {
         this.expDate = expDate;
         this.threeDigits = threeDigits;
     }
-    public void setCustomer(Customer customer){this.customer = customer;}
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 }

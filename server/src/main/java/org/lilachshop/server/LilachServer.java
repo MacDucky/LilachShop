@@ -37,37 +37,36 @@ public class LilachServer extends AbstractServer {
             }
             return;
         }
-        if(msg.getClass().equals(UserComplaintRequest.class)){
+        if (msg.getClass().equals(UserComplaintRequest.class)) {
             UserComplaintRequest request = (UserComplaintRequest) msg;
             String message_from_client = request.getRequest();
-            try{
+            try {
                 switch (message_from_client) {
                     case "post new complaint" -> {
                         System.out.println("posting new complaint:");
                         Complaint complaint = request.getComplaint();
-                        entityFactory.createOrUpdateSingleRecord(complaint);
-//                        System.out.println(complaint.getContent());
+                        entityFactory.addComplaint(complaint);
                     }
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        if(msg.getClass().equals(SupportComplaintRequest.class)){
+        if (msg.getClass().equals(SupportComplaintRequest.class)) {
             SupportComplaintRequest request = (SupportComplaintRequest) msg;
             String message_from_client = request.getRequest();
-            try{
-                switch (message_from_client){
-                    case "get all complaints" ->{
+            try {
+                switch (message_from_client) {
+                    case "get all complaints" -> {
                         List<Complaint> complaints = entityFactory.getAllComplaints();
                         client.sendToClient(complaints);
                     }
-                    case "reply to customer complaint"->{
+                    case "reply to customer complaint" -> {
                         Complaint complaint = request.getComplaint();
-                        entityFactory.createOrUpdateSingleRecord(complaint);
+                        entityFactory.addComplaint(complaint);
                     }
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -93,16 +92,16 @@ public class LilachServer extends AbstractServer {
 //            }
 //
 //        }
-        if(msg.getClass().equals(CatalogRequest.class)){
+        if (msg.getClass().equals(CatalogRequest.class)) {
             CatalogRequest request = (CatalogRequest) msg;
             String message_from_client = request.getRequest();
             try {
                 switch (message_from_client) {
                     case "get catalog" -> {
-                        List<Item> items =  entityFactory.getAllItems();
+                        List<Item> items = entityFactory.getAllItems();
                         client.sendToClient(new LinkedList<Item>(items));
                         System.out.println("catalog was sent!");
-                        for(Item item: items){
+                        for (Item item : items) {
                             System.out.println(item);
                         }
                     }
@@ -110,7 +109,7 @@ public class LilachServer extends AbstractServer {
                         client.sendToClient("request does not exist");
                     }
                 }
-            }catch (Exception e) {
+            } catch (Exception e) {
                 System.out.println("Failed sending reply to client.");
                 e.printStackTrace();
             }
@@ -142,12 +141,12 @@ public class LilachServer extends AbstractServer {
                         client.sendToClient("This is a reply from LilachServer!");
                     }
 
-                    case "write catalog" ->{
+                    case "write catalog" -> {
                         entityFactory.createCatalog();
                         client.sendToClient("Catalog is created!");
                     }
 
-                    case "get all items" ->{
+                    case "get all items" -> {
                         entityFactory.getAllItems();
                     }
                 }

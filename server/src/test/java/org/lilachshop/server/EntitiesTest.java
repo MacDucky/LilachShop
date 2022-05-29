@@ -2,8 +2,8 @@ package org.lilachshop.server;
 
 
 import org.junit.jupiter.api.*;
-import org.lilachshop.entities.Catalog;
-import org.lilachshop.entities.Store;
+import org.junit.jupiter.api.Order;
+import org.lilachshop.entities.*;
 
 import java.util.List;
 
@@ -43,6 +43,7 @@ public class EntitiesTest {
     void shouldCreateCatalog(TestInfo testInfo) {
         System.out.println("In Function: " + testInfo.getDisplayName());
         Assertions.assertDoesNotThrow(entityFactory::createCatalog);
+        Assertions.assertTrue(entityFactory.getAllCatalogs().size() > 0);
     }
 
     @Order(4)
@@ -74,15 +75,30 @@ public class EntitiesTest {
         String storeName = "Sherlok's shop";
         Catalog catalog = entityFactory.getCatalogByCatalogID(2L);
         Store store = new Store(address, storeName, catalog, null, null);
-        Assertions.assertDoesNotThrow(() -> entityFactory.addShop(store));
+        Assertions.assertDoesNotThrow(() -> entityFactory.addStore(store));
+        Assertions.assertNotNull(catalog);
     }
 
     @Order(7)
     @Test
-    void shouldCreateTwoEmployees(TestInfo testInfo) {
+    void shouldCreateOneEmployeeAndAssignHimToStoreWithCatalog2(TestInfo testInfo) {
         System.out.println("In Function: " + testInfo.getDisplayName());
-//        Employee employee1 = new Employee()
-        Assertions.assertTrue(true);
+        Store storeWithID1 = entityFactory.getStoreByID(1L);
+        Employee employee = new Employee(storeWithID1, Role.STORE_EMPLOYEE, "Utzliguz", "Li");
+        Assertions.assertDoesNotThrow(() -> entityFactory.addEmployee(employee));
+        Assertions.assertTrue(entityFactory.getAllStores().size() < 2);
+    }
+
+    @Order(8)
+    @Test
+    void shouldCreateCustomer(TestInfo testInfo) {
+        System.out.println("In Function: " + testInfo.getDisplayName());
+        CreditCard card = new CreditCard("1234-5678-9087-6543", "02/99", "123");
+        Account account = new Account(AccountType.STORE_ACCOUNT);
+        Customer customer = new Customer("Utzguz", "12345", "Utzliguz Li", "Nesher,Israel",
+                "0541231234", card, null, entityFactory.getStoreByID(1L), account);
+        entityFactory.addCustomer(customer);
+        Assertions.assertNotNull(entityFactory.getCustomerByID(1L));
     }
 
 }

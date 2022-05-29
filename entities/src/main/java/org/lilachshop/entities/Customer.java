@@ -1,9 +1,6 @@
 package org.lilachshop.entities;
 
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
@@ -13,23 +10,23 @@ import java.util.List;
 @Entity
 @Table(name = "Customers")
 public class Customer extends User implements Serializable {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "id", nullable = false)
-//    private Long id;
 
-    public Customer(String userName, String userPassword, String name, String address, String phoneNumber, Boolean disabled, CreditCard card, List<Order> orders, Store store, Account account) {
+    public Customer(String userName, String userPassword, String name, String address, String phoneNumber, CreditCard card, List<Order> orders, Store store, Account account, Boolean... disabled) {
         super(userName, userPassword);
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        this.disabled = disabled;
         this.card = card;
+        card.setCustomer(this);
         this.orders = orders;
         this.store = store;
         this.account = account;
+        if (disabled.length > 0)
+            this.disabled = disabled[0];
+        else
+            this.disabled = false;
     }
-    @OneToOne
+    @Embedded
     Account account;
 
     String name;
@@ -46,6 +43,11 @@ public class Customer extends User implements Serializable {
     @ManyToOne
     @JoinColumn(name = "store_id")
     Store store;
+
+    public void setCard(CreditCard card) {
+        this.card = card;
+        card.setCustomer(this);
+    }
 
     public CreditCard getCard() {
         return card;

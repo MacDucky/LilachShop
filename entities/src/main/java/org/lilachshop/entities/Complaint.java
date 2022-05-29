@@ -9,25 +9,43 @@ public class Complaint implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
+    String creationDate;
     String endOfHandleDate;
     String status;
     String complaintNumber;
     String content;
+    String reply;
 
-    public Complaint() {
+    @OneToOne(cascade = CascadeType.ALL)
+    Order order;
+
+    @ManyToOne
+    @JoinColumn(name = "store_id")
+    private Store store;
+
+    public Store getStore() {
+        return store;
     }
 
-    public String getComplaintNumber() {
-        return complaintNumber;
+    public void setStore(Store store) {
+        this.store = store;
+    }
+
+    protected Complaint() {
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public Complaint(String endOfHandleDate, String status, String complaintNumber, String content) {
         this.endOfHandleDate = endOfHandleDate;
         this.status = status;
-        this.complaintNumber = complaintNumber;
         this.content = content;
+        this.creationDate = creationDate;
+        this.reply = reply;
     }
 
     public String getCreationDate() {
@@ -46,6 +64,10 @@ public class Complaint implements Serializable {
         this.status = status;
     }
 
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
     public String getContent() {
         return content;
     }
@@ -54,7 +76,4 @@ public class Complaint implements Serializable {
         this.content = content;
     }
 
-    public void setComplaintNumber(String complaintNumber) {
-        this.complaintNumber = complaintNumber;
-    }
 }

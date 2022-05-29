@@ -15,6 +15,7 @@ public class Employee extends User implements Serializable {
 
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "store_id", nullable = false)
     Store store;
 
     @Enumerated(EnumType.STRING)

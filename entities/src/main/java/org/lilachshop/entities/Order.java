@@ -1,20 +1,16 @@
 package org.lilachshop.entities;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
-@Transactional
 @Entity
 @Table(name = "Orders")
 public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "id", nullable = false)
     private Long id;
 
     public Order(String creationDate, String greetingCard, List<Item> items, int totalPrice, int amountOfProducts, DeliveryDetails deliveryDetails, PickUpDetails pickUpDetails, Complaint complaint, Customer customer) {
@@ -31,8 +27,8 @@ public class Order implements Serializable {
 
     String creationDate;
     String greetingCard;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    List<Item> items = new java.util.ArrayList<>();
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH}, mappedBy = "order")
+    List<Item> items = new LinkedList<>();
 
     int totalPrice;
 
@@ -51,6 +47,10 @@ public class Order implements Serializable {
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     Customer customer;
+
+    public void setComplaint(Complaint complaint) {
+        this.complaint = complaint;
+    }
 
     public Complaint getComplaint() {
         return complaint;

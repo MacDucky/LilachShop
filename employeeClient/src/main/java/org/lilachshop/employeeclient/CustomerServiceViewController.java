@@ -84,7 +84,7 @@ public class CustomerServiceViewController implements Initializable {
     public void closeComplaint(String updatedComplaintNumber, String reply) {
         //todo: needs to update complaint status also in the database
         for (Complaint complaint : listOfComplaints) {
-            if (complaint.getComplaintNumber().equals(updatedComplaintNumber)) {
+            if(String.valueOf(complaint.getId()).equals(updatedComplaintNumber)){
                 complaint.setStatus("סגור");
                 // close complaint on server
                 ((CustomerServicePanel) panel).ReplyToComplaintRequestToServer(complaint, reply);
@@ -105,7 +105,7 @@ public class CustomerServiceViewController implements Initializable {
 
         try {
             controller.setComplaintData(
-                    listOfComplaints.get(0).getComplaintNumber(),
+                    String.valueOf(listOfComplaints.get(0).getId()),
                     listOfComplaints.get(0).getStatus(),
                     listOfComplaints.get(0).getCreationDate(),
                     listOfComplaints.get(0).getContent(), this);
