@@ -49,10 +49,13 @@ public class LilachServer extends AbstractServer {
                                 customer.getUserName().equals(requestUserName)){
                                 try {
                                     client.sendToClient(customer);
+                                    return;
+
                                 }catch (Exception e){
                                     e.printStackTrace();
                                 }
                             }
+
                         }
                         try {
                             client.sendToClient("client not exist");
