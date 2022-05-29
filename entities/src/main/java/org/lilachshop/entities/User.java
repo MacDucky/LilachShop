@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Table(name = "Users")
 public class User implements Serializable {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -31,14 +31,11 @@ public class User implements Serializable {
     protected User() {}
 
 
+
     String userName;
     String userPassword;
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 }
