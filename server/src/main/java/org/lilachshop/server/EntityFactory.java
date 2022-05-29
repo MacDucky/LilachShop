@@ -56,6 +56,14 @@ public class EntityFactory {
         return getSingleRecord(Catalog.class, "id", catalog_id);
     }
 
+    public List<Catalog> getAllCatalogs() {
+        return getAllRecords(Catalog.class);
+    }
+
+    public void addShop(Store store) {
+        createOrUpdateSingleRecord(store);
+    }
+
 
     /*
      *****************************************   Entity Methods   ******************************************************
@@ -134,6 +142,7 @@ public class EntityFactory {
 
         Query<T> query = session.createQuery(cq);
         List<T> record_list = query.getResultList();
+        session.close();
         return record_list.isEmpty() ? null : record_list.get(0);
     }
 

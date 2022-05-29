@@ -3,6 +3,9 @@ package org.lilachshop.server;
 
 import org.junit.jupiter.api.*;
 import org.lilachshop.entities.Catalog;
+import org.lilachshop.entities.Store;
+
+import java.util.List;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class EntitiesTest {
@@ -18,41 +21,66 @@ public class EntitiesTest {
 
     @Order(1)
     @Test
-    void shouldCreateEntityFactory() {
+    void shouldCreateEntityFactory(TestInfo testInfo) {
+        System.out.println("In Function: " + testInfo.getDisplayName());
+        System.out.println("Creating Entity Factory...");
         Assertions.assertNotNull(entityFactory);
+        System.out.println("Done");
     }
 
     @Order(2)
     @Test
-    void shouldCreateCatalog() {
+    void shouldNotContainAnyCatalogs(TestInfo testInfo) {
+        System.out.println("In Function: " + testInfo.getDisplayName());
+        List<Catalog> catalogs = entityFactory.getAllCatalogs();
+        Assertions.assertTrue(catalogs.isEmpty());
+        Assertions.assertNull(entityFactory.getCatalogByCatalogID(1L));
+    }
+
+
+    @Order(3)
+    @Test
+    void shouldCreateCatalog(TestInfo testInfo) {
+        System.out.println("In Function: " + testInfo.getDisplayName());
         Assertions.assertDoesNotThrow(entityFactory::createCatalog);
     }
 
-    @Order(3)
+    @Order(4)
     @Test
-    void shouldContainOneCatalog() {
+    void shouldContainOneCatalog(TestInfo testInfo) {
+        System.out.println("In Function: " + testInfo.getDisplayName());
         Catalog catalog = entityFactory.getCatalogByCatalogID(1L);
         Assertions.assertNotNull(catalog);
+        Assertions.assertTrue(entityFactory.getAllCatalogs().size() < 2);
         System.out.println(catalog);
     }
 
-    @Order(4)
+    @Order(5)
     @Test
-    void createAnotherCatalog
-
-
-    @Disabled
-    @Order(3)
-    @Test
-    void shouldCreateStore() {
-        String address = "Baker Street 221b, London";
-        String storeName = "Sherlok's shop";
-//        Store store = new Store(address, storeName, )
+    void createAnotherCatalogAndQueryOnlyIt(TestInfo testInfo) {
+        System.out.println("In Function: " + testInfo.getDisplayName());
+        Assertions.assertDoesNotThrow(entityFactory::createCatalog);
+        Catalog catalog = entityFactory.getCatalogByCatalogID(2L);
+        Assertions.assertEquals(catalog.getId(), 2L);
+        Assertions.assertEquals(2, entityFactory.getAllCatalogs().size());
+        System.out.println(catalog);
     }
 
-    @Order(4)
+    @Order(6)
     @Test
-    void shouldCreateTwoEmployees() {
+    void shouldCreateStore(TestInfo testInfo) {
+        System.out.println("In Function: " + testInfo.getDisplayName());
+        String address = "Baker Street 221b, London";
+        String storeName = "Sherlok's shop";
+        Catalog catalog = entityFactory.getCatalogByCatalogID(2L);
+        Store store = new Store(address, storeName, catalog, null, null);
+        Assertions.assertDoesNotThrow(() -> entityFactory.addShop(store));
+    }
+
+    @Order(7)
+    @Test
+    void shouldCreateTwoEmployees(TestInfo testInfo) {
+        System.out.println("In Function: " + testInfo.getDisplayName());
 //        Employee employee1 = new Employee()
         Assertions.assertTrue(true);
     }
