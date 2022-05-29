@@ -5,11 +5,13 @@ import javax.transaction.Transactional;
 import java.io.Serializable;
 
 @Transactional
-@Entity
-@Table(name = "Users")
+//@Entity
+//@Table(name = "Users")
+//@Inheritance(strategy = InheritanceType.JOINED)
+@MappedSuperclass
 public class User implements Serializable {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -18,10 +20,8 @@ public class User implements Serializable {
         this.userPassword = userPassword;
     }
 
-    protected User() {}
-
-
-
+    protected User() {
+    }
 
     String userName;
     String userPassword;
@@ -32,5 +32,9 @@ public class User implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public User getUser() {
+        return this;
     }
 }

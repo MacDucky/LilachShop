@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "Complaint")
+@Table(name = "Complaints")
 public class Complaint implements Serializable {
 
     @Id
@@ -16,7 +16,8 @@ public class Complaint implements Serializable {
     String complaintNumber;
     String content;
 
-    public Complaint() {}
+    public Complaint() {
+    }
 
     public String getComplaintNumber() {
         return complaintNumber;

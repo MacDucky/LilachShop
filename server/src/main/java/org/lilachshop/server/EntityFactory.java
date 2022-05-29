@@ -9,10 +9,17 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import org.hibernate.service.ServiceRegistry;
 import org.lilachshop.entities.*;
+import org.reflections.Reflections;
+import org.reflections.util.ConfigurationBuilder;
+import org.reflections.util.FilterBuilder;
 
 import javax.persistence.criteria.*;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+
+import static org.reflections.scanners.Scanners.SubTypes;
+
 
 /**
  * Hello world!
@@ -32,17 +39,21 @@ public class EntityFactory {
         return ef;
     }
 
-    public List<Item> getAllItems(){    // should be gotten from a specific catalog,but currently DB has a single table of Items
+    public List<Item> getAllItems() {    // should be gotten from a specific catalog,but currently DB has a single table of Items
         return getAllRecords(Item.class);
     }
 
-    public List<Complaint> getAllComplaints(){    // should be gotten from a specific catalog,but currently DB has a single table of Items
+    public List<Complaint> getAllComplaints() {    // should be gotten from a specific catalog,but currently DB has a single table of Items
         return getAllRecords(Complaint.class);
     }
 
-    public void createCatalog(){
+    public void createCatalog() {
         Catalog catalog = App.generateCatalog();
         createOrUpdateSingleRecord(catalog);
+    }
+
+    public Catalog getCatalogByCatalogID(long catalog_id) {
+        return getSingleRecord(Catalog.class, "id", catalog_id);
     }
 
 
@@ -136,6 +147,7 @@ public class EntityFactory {
     <T> void createOrUpdateSingleRecord(T entityToCreate) {
         Session session = sf.openSession();
         Transaction transaction = session.beginTransaction();
+        session.flush();
 
         session.saveOrUpdate(entityToCreate);
 
@@ -162,7 +174,7 @@ public class EntityFactory {
         Root<T> root = cu.from(entityClass);
         cu.set(root.get(mutateAttribColumn), valueToSet);
         cu.where(cb.equal(root.get(keyColumn), key));
-
+        session.flush();
         Transaction transaction = session.beginTransaction();
         session.createQuery(cu).executeUpdate();
         transaction.commit();
@@ -191,10 +203,22 @@ public class EntityFactory {
         session.close();
     }
 
+    private static Set<Class<?>> classesToAnnotate;
+
+    private static void collectClasses() {
+        String pkgToScan = "org.lilachshop.entities";
+        Reflections reflections = new Reflections(
+                new ConfigurationBuilder()
+                        .forPackage(pkgToScan)
+                        .filterInputsBy(new FilterBuilder().includePackage(pkgToScan)).setScanners(SubTypes.filterResultsBy(c -> true)));
+        classesToAnnotate = reflections.getSubTypesOf(Object.class);
+    }
 
     private static SessionFactory getSessionFactory() throws HibernateException {
         Configuration configuration = new Configuration();
-        configuration.addAnnotatedClass(ExampleEntity.class).addAnnotatedClass(ExampleEnum.class).addAnnotatedClass(Item.class).addAnnotatedClass(Catalog.class).addAnnotatedClass(Complaint.class);//.addAnnotatedClass(Item.class);
+        collectClasses();
+        classesToAnnotate.forEach(configuration::addAnnotatedClass);
+//        configuration.addAnnotatedClass(ExampleEntity.class).addAnnotatedClass(ExampleEnum.class).addAnnotatedClass(Item.class).addAnnotatedClass(Catalog.class).addAnnotatedClass(Complaint.class);//.addAnnotatedClass(Item.class);
 
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                 .applySettings(configuration.getProperties())

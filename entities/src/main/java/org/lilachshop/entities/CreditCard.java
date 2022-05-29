@@ -17,7 +17,7 @@ public class CreditCard implements Serializable {
     String expDate;
     String threeDigits;
 
-    @OneToOne
+    @OneToOne(mappedBy = "card")
     Customer customer;
 
     public Long getId() {

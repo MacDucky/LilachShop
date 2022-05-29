@@ -1,8 +1,12 @@
 package org.lilachshop.entities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Transactional
@@ -29,6 +33,19 @@ public class Store implements Serializable {
         this.orders = orders;
     }
 
+    String address;
+
+    String storeName;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    Catalog catalog;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true) // if store is removed, so will its complaints.
+    @JoinColumn(name = "store_id")
+    List<Complaint> complaints = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "id", targetEntity = Order.class)
+    List<Order> orders;
+
     public String getAddress() {
         return address;
     }
@@ -48,18 +65,6 @@ public class Store implements Serializable {
     public List<Order> getOrders() {
         return orders;
     }
-
-    String address;
-    String storeName;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    Catalog catalog;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    List<Complaint> complaints;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    List<Order> orders;
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;

@@ -1,4 +1,5 @@
 package org.lilachshop.entities;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -9,22 +10,32 @@ public class Item implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Column(name = "item_name")
     private String name;
 
     private int price;
     private String image;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "catalog_id")
     private Catalog catalog;
 
+    public Catalog getCatalog() {
+        return catalog;
+    }
+
+    public void setCatalog(Catalog catalog) {
+        this.catalog = catalog;
+    }
 
     public Item() {
     }
 
     @Override
     public String toString() {
-        return "item name: " + name;
+        return "Item ID:" + id + ", item name: " + name + ", price: " + price + ", has_image: " +
+                (Boolean) (image.length() > 0) + ", Catalog ID: " + catalog.getId();
     }
 
 
