@@ -202,9 +202,9 @@ public class EntityFactory {
         int i=0;
 
 
-        for(CreditCard creditCard: creditCards){
-            createOrUpdateSingleRecord(creditCard);
-        }
+//        for(CreditCard creditCard: creditCards){
+//            createOrUpdateSingleRecord(creditCard);
+//        }
         for (Customer customer:customers){
             createOrUpdateSingleRecord(customer);
             creditCards.get(i).setCustomer(customer);

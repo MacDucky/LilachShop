@@ -56,11 +56,12 @@ public class Item implements Serializable {
         this.name = name;
     }
 
-    public Item(String name, int price, String image) {
+    public Item(String name, int price, String image, int percent) {
         super();
         this.name = name;
         this.price = price;
         this.image = image;
+        this.percent = percent;
 
     }
 

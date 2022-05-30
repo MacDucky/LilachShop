@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
+
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,6 +29,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.entities.AccountType;
 import org.lilachshop.entities.Customer;
 import org.lilachshop.entities.Item;
+import org.lilachshop.entities.Store;
 import org.lilachshop.panels.*;
 
 public class CatalogController {
@@ -105,7 +108,7 @@ public class CatalogController {
     private ScrollPane scroll; // Value injected by FXMLLoader
 
     @FXML // fx:id="shopList"
-    private ComboBox<?> shopList; // Value injected by FXMLLoader
+    private ChoiceBox<?> shopList; // Value injected by FXMLLoader
 
     /**
      * set the new scene cart
@@ -297,10 +300,9 @@ public class CatalogController {
                 AnchorPane anchorPane = fxmlLoader.load();
 
                 ItemController itemController = fxmlLoader.getController();
-                itemControllers.add(itemController);
                 itemController.setData(flower, myListener);
+                Platform.runLater(()->{grid.getChildren().add(anchorPane);});//, column++, row);
 
-                grid.getChildren().add(anchorPane);//, column++, row);
                 //GridPane.setMargin(anchorPane, new Insets(5));
 
                 if (countOnSale <= MAX_ON_SALE && flower.getPercent() > 0) {
@@ -311,7 +313,7 @@ public class CatalogController {
 
                         SaleItemController saleItemController = fxmlLoaderSale.getController();
                         saleItemController.setData(flower, myListener);
-                        itemLayout.getChildren().add(anchorPaneSale);
+                        Platform.runLater(()->{itemLayout.getChildren().add(anchorPaneSale);});
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
