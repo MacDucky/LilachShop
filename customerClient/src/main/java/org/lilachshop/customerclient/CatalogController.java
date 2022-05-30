@@ -33,6 +33,7 @@ import org.lilachshop.panels.*;
 
 public class CatalogController {
     private static Panel panel;
+
     Boolean switchFlag = false;
     private Item flowerShown;
 
