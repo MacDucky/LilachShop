@@ -311,10 +311,6 @@ public class EntityFactory {
         return getListOfRecordByKey(Order.class, "store", storeId);
     }
 
-    public List<ExampleEntity> getAllExampleEntities() {
-        return getAllRecords(ExampleEntity.class);
-    }
-
     public Catalog getSingleCatalogEntityRecord(long entityID) {
         return getSingleRecord(Catalog.class, "id", entityID);
     }
@@ -326,6 +322,10 @@ public class EntityFactory {
     /*
      *****************************************   Entity Methods   ******************************************************
      */
+
+    public List<ExampleEntity> getAllExampleEntities() {
+        return getAllRecords(ExampleEntity.class);
+    }
 
     // Usage of query API
     public ExampleEntity getSingleExampleEntityRecord(long entityID) {
