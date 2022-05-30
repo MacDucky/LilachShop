@@ -50,6 +50,15 @@ public class LilachServer extends AbstractServer {
                         e.printStackTrace();
                     }
                 }
+                case "get store orders"->{
+                    long storeID = request.getStoreID();
+                    List<Order> orders = entityFactory.getOrdersByStoreId(storeID);
+                    try {
+                        client.sendToClient(orders);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
             }
         }
         if (msg.getClass().equals(EmployeeLoginRequest.class)) {

@@ -142,7 +142,7 @@ public class EntityFactory {
 //        store3.addComplaint(complaint8);
     }
     public void addOredersToStoresStore(Store store1, Store store2, Store store3){
-        Date dt = new Date();
+        LocalDate dt = LocalDate.of(2022, 5, 27);
         String timeNow = dt.toString();
         List<Item> generalItemList = App.createItemList();
         // ---- add items to database ----
@@ -225,14 +225,16 @@ public class EntityFactory {
         itemList1.add(generalItemList.get(2));
         itemList1.add(generalItemList.get(3));
         DeliveryDetails deliveryDetails1 = new DeliveryDetails(timeNow, "05429384384", "גיל", "חיפה 42");
-        Order order1 = new Order(timeNow, "מזל טוב תתחדשי על הפרחים!", itemList1,100, 4, deliveryDetails1, null, null,customers.get(0));
+        Order order1 = new Order(dt, "מזל טוב תתחדשי על הפרחים!", itemList1,100, 4, deliveryDetails1, null, null,customers.get(0));
+        order1.setStore(store1);
         deliveryDetails1.setOrder(order1);
         List<Item> itemList2 = new ArrayList<>();
         itemList2.add(generalItemList.get(4));
         itemList2.add(generalItemList.get(5));
         itemList2.add(generalItemList.get(11));
         DeliveryDetails deliveryDetails2 = new DeliveryDetails(timeNow, "05429384384", "זיו", "חיפה, נווה שאנן 42");
-        Order order2 = new Order(timeNow, "מזל טוב תתחדשו על הפרחים שלכם, הם יפים!", itemList2,200, 4, deliveryDetails2, null, null, customers.get(1));
+        Order order2 = new Order(dt, "מזל טוב תתחדשו על הפרחים שלכם, הם יפים!", itemList2,200, 4, deliveryDetails2, null, null, customers.get(1));
+        order2.setStore(store1);
         deliveryDetails2.setOrder(order2);
         createOrUpdateSingleRecord(deliveryDetails1);
         createOrUpdateSingleRecord(deliveryDetails2);
@@ -244,14 +246,13 @@ public class EntityFactory {
         customers.get(0).addOrderToList(order1);
         customers.get(1).addOrderToList(order2);
 
-
-
         List<Item> itemList3 = new ArrayList<>();
         itemList1.add(generalItemList.get(9));
         itemList1.add(generalItemList.get(8));
         itemList1.add(generalItemList.get(10));
         PickUpDetails pickUpDetails1 = new PickUpDetails(timeNow);
-        Order order3 = new Order(timeNow, "", itemList3,400, 4, null, pickUpDetails1, null, customers.get(2));
+        Order order3 = new Order(dt, "", itemList3,400, 4, null, pickUpDetails1, null, customers.get(2));
+        order3.setStore(store2);
         pickUpDetails1.setOrder(order3);
         customers.get(2).addOrderToList(order3);
         createOrUpdateSingleRecord(pickUpDetails1);
@@ -285,12 +286,13 @@ public class EntityFactory {
     public List<Complaint> getComplaintsByStoreId(long storeId){
         return getListOfRecordByKey(Complaint.class, "store", storeId);
     }
-
+    public List<Order> getOrdersByStoreId(long storeId){
+        return getListOfRecordByKey(Order.class, "store", storeId);
+    }
 
     public List<ExampleEntity> getAllExampleEntities() {
         return getAllRecords(ExampleEntity.class);
     }
-
 
     public Catalog getSingleCatalogEntityRecord(long entityID) {
         return getSingleRecord(Catalog.class, "id", entityID);
