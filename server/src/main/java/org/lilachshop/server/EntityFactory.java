@@ -9,6 +9,7 @@ import org.lilachshop.entities.*;
 import org.lilachshop.entities.Order;
 
 import javax.persistence.criteria.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -95,12 +96,12 @@ public class EntityFactory {
 
 
     public void addComplaintsToStores(Store store1, Store store2, Store store3){
-        Date dt = new Date();
+        LocalDate dt = LocalDate.of(2022, 5, 27);
         String time = dt.toString();
 
-        Complaint complaint1 = new Complaint(time, "פתוח", "אני כועס מאוד על השירות בחיפה1", time, "");
-        Complaint complaint2 = new Complaint(time, "פתוח", "אני כועס מאוד על השירות בחיפה2", time, "");
-        Complaint complaint3 = new Complaint(time, "פתוח", "אני כועס מאוד על השירות בהרצליה3", time, "");
+        Complaint complaint1 = new Complaint(dt.plusDays(1), "פתוח", "אני כועס מאוד על השירות בחיפה1", dt, "");
+        Complaint complaint2 = new Complaint(dt.plusDays(2), "פתוח", "אני כועס מאוד על השירות בחיפה2", dt.plusDays(1), "");
+        Complaint complaint3 = new Complaint(dt.plusDays(1), "פתוח", "אני כועס מאוד על השירות בהרצליה3", dt, "");
 
 //        Complaint complaint4 = new Complaint(time, "פתוח", "אני כועס מאוד על השירות בהרצליה1", time, "");
 //        Complaint complaint5 = new Complaint(time, "פתוח", "אני כועס מאוד על השירות בהרצליה2", time, "");
@@ -281,12 +282,22 @@ public class EntityFactory {
      */
 
     // Usage of query API
+    public List<Complaint> getComplaintsByStoreId(long storeId){
+        return getListOfRecordByKey(Complaint.class, "store", storeId);
+    }
+
+
     public List<ExampleEntity> getAllExampleEntities() {
         return getAllRecords(ExampleEntity.class);
     }
 
+
     public Catalog getSingleCatalogEntityRecord(long entityID) {
         return getSingleRecord(Catalog.class, "id", entityID);
+    }
+
+    public Store getStoreById(long entityID){
+        return getSingleRecord(Store.class, "id", entityID);
     }
 
     // Usage of query API
@@ -358,6 +369,18 @@ public class EntityFactory {
         Query<T> query = session.createQuery(cq);
         List<T> record_list = query.getResultList();
         return record_list.isEmpty() ? null : record_list.get(0);
+    }
+
+    private <T, S> List<T> getListOfRecordByKey(Class<T> entityClass, String keyColumn, S key) { // todo: test this
+        Session session = sf.openSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<T> cq = cb.createQuery(entityClass);
+        Root<T> root = cq.from(entityClass);
+        cq.select(root);
+        cq.where(cb.equal(root.get(keyColumn), key));
+
+        Query<T> query = session.createQuery(cq);
+        return query.getResultList();
     }
 
 

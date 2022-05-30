@@ -22,7 +22,7 @@ public class LilachServer extends AbstractServer {
             System.out.println("Unable to setup EntityFactory.");
             throw e;
         }
-        entityFactory.fillDataBase();
+//        entityFactory.fillDataBase();
     }
 
     @Override
@@ -35,6 +35,22 @@ public class LilachServer extends AbstractServer {
                 e.printStackTrace();
             }
             return;
+        }
+        if(msg.getClass().equals(ReportsRequest.class)){
+            ReportsRequest request = (ReportsRequest) msg;
+            String message_from_client = request.getRequest();
+
+            switch (message_from_client){
+                case "get store complaints"->{
+                    long storeID = request.getStoreID();
+                    List<Complaint> complaints = entityFactory.getComplaintsByStoreId(storeID);
+                    try {
+                        client.sendToClient(complaints);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
         if (msg.getClass().equals(EmployeeLoginRequest.class)) {
             EmployeeLoginRequest request = (EmployeeLoginRequest) msg;
@@ -60,11 +76,11 @@ public class LilachServer extends AbstractServer {
             }
         }
 
-//        if (msg.getClass().equals(SignUpRequest.class)) {
-//            SignUpRequest request = (SignUpRequest) msg;
-//            System.out.println("Server: got new signup request...");
-//            entityFactory.addCustomer(request.getCustomer());
-//        }
+        if (msg.getClass().equals(SignUpRequest.class)) {
+            SignUpRequest request = (SignUpRequest) msg;
+            System.out.println("Server: got new signup request...");
+            entityFactory.addCustomer(request.getCustomer());
+        }
 
         if (msg.getClass().equals(CustomerLoginRequest.class)) {
             CustomerLoginRequest request = (CustomerLoginRequest) msg;
