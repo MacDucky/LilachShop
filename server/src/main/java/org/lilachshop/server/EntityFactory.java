@@ -285,9 +285,12 @@ public class EntityFactory {
         return getAllRecords(ExampleEntity.class);
     }
 
+    public Catalog getSingleCatalogEntityRecord(long entityID) {
+        return getSingleRecord(Catalog.class, "id", entityID);
+    }
 
     // Usage of query API
-    public ExampleEntity getSingleExampleEntityRecord(int entityID) {
+    public ExampleEntity getSingleExampleEntityRecord(long entityID) {
         return getSingleRecord(ExampleEntity.class, "id", entityID);
     }
 

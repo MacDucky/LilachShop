@@ -22,7 +22,7 @@ public class Item implements Serializable {
         this.percent = percent;
     }
 
-    private int percent;
+    private int percent = 0;
 
     private int price;
     private String image;
