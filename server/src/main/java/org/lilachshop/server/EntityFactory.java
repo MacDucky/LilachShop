@@ -298,7 +298,6 @@ public class EntityFactory {
         return getAllRecords(ExampleEntity.class);
     }
 
-
     public Catalog getSingleCatalogEntityRecord(long entityID) {
         return getSingleRecord(Catalog.class, "id", entityID);
     }
