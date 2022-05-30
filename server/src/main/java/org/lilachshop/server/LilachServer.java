@@ -22,7 +22,7 @@ public class LilachServer extends AbstractServer {
             System.out.println("Unable to setup EntityFactory.");
             throw e;
         }
-        entityFactory.fillDataBase();
+//        entityFactory.fillDataBase();
     }
 
     @Override
