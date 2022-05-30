@@ -30,13 +30,6 @@ public class User implements Serializable {
         return userPassword;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
-    }
 
     protected User() {
     }
@@ -44,5 +37,13 @@ public class User implements Serializable {
 
     public Long getId() {
         return id;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
     }
 }

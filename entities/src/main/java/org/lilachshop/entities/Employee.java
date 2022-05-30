@@ -29,9 +29,7 @@ public class Employee extends User implements Serializable {
 //        return super.getId();
 //    }
 
-    protected Employee() {
-
-    }
+    protected Employee() {}
 
     public Store getStore() {
         return store;

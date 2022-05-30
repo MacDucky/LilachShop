@@ -37,12 +37,12 @@ public class EntityFactory {
         return getAllRecords(Item.class);
     }
 
-    public List<Complaint> getAllComplaints() {    // should be gotten from a specific catalog,but currently DB has a single table of Items
-        return getAllRecords(Complaint.class);
-    }
-
     public List<Catalog> getAllCatalogs() {
         return getAllRecords(Catalog.class);
+    }
+
+    public List<Complaint> getAllComplaints() {    // should be gotten from a specific catalog,but currently DB has a single table of Items
+        return getAllRecords(Complaint.class);
     }
 
     public void createCatalog() {
@@ -188,9 +188,9 @@ public class EntityFactory {
         Account account1 = new Account(timeNow, AccountType.STORE_ACCOUNT);
         Account account2 = new Account(timeNow, AccountType.CHAIN_ACCOUNT);
         Account account3 = new Account(timeNow, AccountType.ANNUAL_SUBSCRIPTION);
-        createOrUpdateSingleRecord(account1);
-        createOrUpdateSingleRecord(account2);
-        createOrUpdateSingleRecord(account3);
+//        createOrUpdateSingleRecord(account1);
+//        createOrUpdateSingleRecord(account2);
+//        createOrUpdateSingleRecord(account3);
         List<Customer> customers = new ArrayList<>();
         customers.add(new Customer("gil", "1234", "גיל קרטגינר", "חיפה 32", "0542494993", false, creditCards.get(0), new ArrayList<Order>(), store1, account1));
         customers.add(new Customer("yaron", "1111", "ירון מלמד", "חיפה 55", "0542493123", false, creditCards.get(1), new ArrayList<Order>(), store1, account2));
