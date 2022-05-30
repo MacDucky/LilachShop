@@ -183,6 +183,7 @@ public class CatalogController {
             stage.setScene(new Scene(root));
             stage.show();
         }
+
     }
 
     /**
