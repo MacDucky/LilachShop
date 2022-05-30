@@ -28,7 +28,7 @@ public class SignUpLoginController implements Initializable {
     private static Panel panel;
 
 
-   static FXMLLoader FinalStagefxmlLoader = null;
+    static FXMLLoader FinalStagefxmlLoader = null;
     @FXML
     private ResourceBundle resources;
 
@@ -92,13 +92,14 @@ public class SignUpLoginController implements Initializable {
             throw new RuntimeException("Panel creation failed!");
         }
     }
+
     @Subscribe
     public void handleMessageReceivedFromClient(Object msg) {
         System.out.println("message about login was received from server");
 
-        Platform.runLater(()->{
-            if(msg.getClass().equals(String.class)){
-                if(String.valueOf(msg).equals("client not exist")){
+        Platform.runLater(() -> {
+            if (msg.getClass().equals(String.class)) {
+                if (String.valueOf(msg).equals("client not exist")) {
                     Alert a = new Alert(Alert.AlertType.NONE);
                     a.setAlertType(Alert.AlertType.INFORMATION);
                     a.setHeaderText("שם המשתמש או הסיסמה אינם נכונים");
@@ -108,8 +109,7 @@ public class SignUpLoginController implements Initializable {
                     userNameTF.setText("");
                     passwordTF.setText("");
                 }
-            }
-            else{
+            } else {
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
                     Parent root1 = (Parent) fxmlLoader.load();
@@ -122,7 +122,7 @@ public class SignUpLoginController implements Initializable {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-        }
-    });
+            }
+        });
     }
 }
