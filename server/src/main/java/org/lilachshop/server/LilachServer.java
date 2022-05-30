@@ -59,11 +59,11 @@ public class LilachServer extends AbstractServer {
             }
         }
 
-        if (msg.getClass().equals(SignUpRequest.class)) {
-            SignUpRequest request = (SignUpRequest) msg;
-            System.out.println("Server: got new signup request...");
-            entityFactory.addCustomer(request.getCustomer());
-        }
+//        if (msg.getClass().equals(SignUpRequest.class)) {
+//            SignUpRequest request = (SignUpRequest) msg;
+//            System.out.println("Server: got new signup request...");
+//            entityFactory.addCustomer(request.getCustomer());
+//        }
 
         if (msg.getClass().equals(CustomerLoginRequest.class)) {
             CustomerLoginRequest request = (CustomerLoginRequest) msg;
@@ -168,6 +168,10 @@ public class LilachServer extends AbstractServer {
                             System.out.println(item);
                         }
                     }
+                    case "get general catalog" ->{
+                        List<Catalog> catalogs = entityFactory.getAllCatalogs();
+
+                    }
                     default -> {
                         client.sendToClient("request does not exist");
                     }
@@ -207,7 +211,7 @@ public class LilachServer extends AbstractServer {
                     case "write catalog" -> {
 //                        entityFactory.createCatalog();
 //                        entityFactory.createCatalogFromExistingOne();
-//                        entityFactory.fillDataBase();
+                        entityFactory.fillDataBase();
                         List<Store> stores = entityFactory.getStores();
                         List<Customer> customers = entityFactory.getCustomers();
                         List<Employee> employees = entityFactory.getEmployees();

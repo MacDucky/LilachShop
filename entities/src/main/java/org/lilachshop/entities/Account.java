@@ -13,7 +13,6 @@ public class Account implements Serializable {
     String creationDate;
     AccountType accountType;
 
-
     protected Account() {}
 
     public AccountType getAccountType() {
