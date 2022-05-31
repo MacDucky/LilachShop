@@ -4,15 +4,9 @@ import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 
-@Transactional
 @Entity
 @Table(name = "Employees")
 public class Employee extends User implements Serializable {
-    public Employee(Store store, Role role, String userName, String userPassword) {
-        super(userName, userPassword);
-        this.store = store;
-        this.role = role;
-    }
 
     @ManyToOne(cascade = CascadeType.ALL)
     Store store;
@@ -21,7 +15,14 @@ public class Employee extends User implements Serializable {
     Role role;
 
 
-    protected Employee() {}
+    public Employee(Store store, Role role, String userName, String userPassword) {
+        super(userName, userPassword);
+        this.store = store;
+        this.role = role;
+    }
+
+    protected Employee() {
+    }
 
     public Store getStore() {
         return store;
