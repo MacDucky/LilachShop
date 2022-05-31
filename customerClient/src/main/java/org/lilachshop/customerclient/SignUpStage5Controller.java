@@ -77,6 +77,7 @@ public class SignUpStage5Controller {
     public void onSignUp4Event(Signup4Event signupEvent) {
         registeringCustomer.setCard(new CreditCard(signupEvent.getCardNumber(), signupEvent.getExpDate()));
         if (panel.getClass().equals(CustomerAnonymousPanel.class)) {
+
             CustomerAnonymousPanel customerAnonymousPanel = (CustomerAnonymousPanel) panel;
             System.out.println(panel.getClass());
             System.out.println(registeringCustomer);
