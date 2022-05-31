@@ -22,7 +22,6 @@ public class LilachServer extends AbstractServer {
             System.out.println("Unable to setup EntityFactory.");
             throw e;
         }
-//        entityFactory.fillDataBase();
     }
 
     @Override
@@ -139,6 +138,7 @@ public class LilachServer extends AbstractServer {
                     e.printStackTrace();
                 }
             }
+
 
             //************************ SignUp Request********************************
 

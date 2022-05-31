@@ -3,10 +3,21 @@ package org.lilachshop.employeeclient;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.function.Function;
 
+import com.mysql.cj.util.StringUtils;
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyLongWrapper;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableLongValue;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -29,14 +40,13 @@ import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.entities.*;
 import org.lilachshop.panels.OperationsPanelFactory;
 import org.lilachshop.panels.Panel;
-import org.lilachshop.panels.PanelEnum;
-import org.lilachshop.panels.SystemManagerPanel;
+import org.lilachshop.panels.SysAdminPanel;
 
 public class EmployeeTableController implements Initializable {
 
     private Panel panel;
 
-    private SystemManagerPanel sPanel;
+    private SysAdminPanel sPanel;
 
     private Parent popUpRoot;
 
@@ -183,8 +193,8 @@ public class EmployeeTableController implements Initializable {
             System.out.println("Unable to load pop up display.");
             e.printStackTrace();
         }
-        panel = OperationsPanelFactory.createPanel(PanelEnum.SYSTEM_MANAGER, this);
-        sPanel = (SystemManagerPanel) panel;
+        panel = OperationsPanelFactory.createPanel(6, this);
+        sPanel = (SysAdminPanel) panel;
         sPanel.getAllEmployees();
 
         /*TableView stuff*/
