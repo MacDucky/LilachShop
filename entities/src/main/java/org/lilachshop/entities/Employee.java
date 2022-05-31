@@ -14,20 +14,12 @@ public class Employee extends User implements Serializable {
         this.role = role;
     }
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "id", nullable = false)
-//    private Long id;
-
     @ManyToOne(cascade = CascadeType.ALL)
     Store store;
 
     @Enumerated(EnumType.STRING)
     Role role;
 
-//    public Long getId() {
-//        return super.getId();
-//    }
 
     protected Employee() {}
 
