@@ -18,6 +18,9 @@ public class User implements Serializable {
         this.userPassword = userPassword;
     }
 
+    String userName;
+
+    String userPassword;
 
     public String getUserName() {
         return userName;
@@ -27,23 +30,19 @@ public class User implements Serializable {
         return userPassword;
     }
 
-
-    protected User() {}
-
-
-
-    String userName;
-    String userPassword;
-
-    public Long getId() {
-        return id;
-    }
-
     public void setUserName(String userName) {
         this.userName = userName;
     }
 
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
+    }
+
+    protected User() {
+    }
+
+
+    public Long getId() {
+        return id;
     }
 }

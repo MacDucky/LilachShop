@@ -33,26 +33,27 @@ public class EntityFactory {
         return ef;
     }
 
-    public List<Item> getAllItems(){    // should be gotten from a specific catalog,but currently DB has a single table of Items
+    public List<Item> getAllItems() {    // should be gotten from a specific catalog,but currently DB has a single table of Items
         return getAllRecords(Item.class);
     }
 
-    public List<Complaint> getAllComplaints(){    // should be gotten from a specific catalog,but currently DB has a single table of Items
+    public List<Complaint> getAllComplaints() {    // should be gotten from a specific catalog,but currently DB has a single table of Items
         return getAllRecords(Complaint.class);
     }
 
-    public void createCatalog(){
+    public void createCatalog() {
         Catalog catalog = App.generateCatalog();
         createOrUpdateSingleRecord(catalog);
     }
-    public void createCatalogFromExistingOne(){
+
+    public void createCatalogFromExistingOne() {
         List<Item> items = getAllRecords(Item.class);
         Catalog catalog = new Catalog();
         catalog.setItems(items);
         createOrUpdateSingleRecord(catalog);
     }
 
-    public void fillDataBase(){
+    public void fillDataBase() {
         // ---------------- creating 3 catalogs -------------
         Catalog catalog1 = App.generateCatalog();
         createOrUpdateSingleRecord(catalog1);
@@ -61,9 +62,9 @@ public class EntityFactory {
         Catalog catalog3 = App.generateCatalog();
         createOrUpdateSingleRecord(catalog3);
 
-        Store store1 = new Store( "חיפה, דרך אבא חושי 1", "לילך חיפה", catalog1, new ArrayList<Complaint>(), new ArrayList<Order>());
-        Store store2 = new Store( "הרצליה, דרך הים 41", "לילך הרצליה", catalog2, new ArrayList<Complaint>(), new ArrayList<Order>());
-        Store store3 = new Store( "תל אביב, דיזינגוף 52", "לילך תל אביב", catalog3, new ArrayList<Complaint>(), new ArrayList<Order>());
+        Store store1 = new Store("חיפה, דרך אבא חושי 1", "לילך חיפה", catalog1, new ArrayList<Complaint>(), new ArrayList<Order>());
+        Store store2 = new Store("הרצליה, דרך הים 41", "לילך הרצליה", catalog2, new ArrayList<Complaint>(), new ArrayList<Order>());
+        Store store3 = new Store("תל אביב, דיזינגוף 52", "לילך תל אביב", catalog3, new ArrayList<Complaint>(), new ArrayList<Order>());
 
         createOrUpdateSingleRecord(store1);
         createOrUpdateSingleRecord(store2);
@@ -77,22 +78,22 @@ public class EntityFactory {
 
 
         createOrUpdateSingleRecord(new Employee(store1, Role.STORE_EMPLOYEE, "ronaldo", "1234"));
-        createOrUpdateSingleRecord(new Employee(store1, Role.CUSTOMER_SERVICE ,"yossi", "1234"));
-        createOrUpdateSingleRecord(new Employee(store1, Role.STORE_MANAGER,"yaakov", "1234"));
-        createOrUpdateSingleRecord(new Employee(store1, Role.CHAIN_MANAGER,"asaf", "1234"));
-        createOrUpdateSingleRecord(new Employee(store1, Role.SYSTEM_MANAGER,"omer", "1234"));
-        createOrUpdateSingleRecord(new Employee(store1, Role.STORE_EMPLOYEE,"ido", "1234"));
-        createOrUpdateSingleRecord(new Employee(store2, Role.STORE_EMPLOYEE,"neta", "1234"));
-        createOrUpdateSingleRecord(new Employee(store2, Role.STORE_EMPLOYEE,"ziv", "1234"));
-        createOrUpdateSingleRecord(new Employee(store2, Role.STORE_EMPLOYEE,"malcy", "1234"));
-        createOrUpdateSingleRecord(new Employee(store3, Role.STORE_EMPLOYEE,"messy", "1234"));
-        createOrUpdateSingleRecord(new Employee(store3, Role.STORE_EMPLOYEE,"george", "1234"));
-        createOrUpdateSingleRecord(new Employee(store3, Role.STORE_EMPLOYEE,"john", "1234"));
+        createOrUpdateSingleRecord(new Employee(store1, Role.CUSTOMER_SERVICE, "yossi", "1234"));
+        createOrUpdateSingleRecord(new Employee(store1, Role.STORE_MANAGER, "yaakov", "1234"));
+        createOrUpdateSingleRecord(new Employee(store1, Role.CHAIN_MANAGER, "asaf", "1234"));
+        createOrUpdateSingleRecord(new Employee(store1, Role.SYSTEM_MANAGER, "omer", "1234"));
+        createOrUpdateSingleRecord(new Employee(store1, Role.STORE_EMPLOYEE, "ido", "1234"));
+        createOrUpdateSingleRecord(new Employee(store2, Role.STORE_EMPLOYEE, "neta", "1234"));
+        createOrUpdateSingleRecord(new Employee(store2, Role.STORE_EMPLOYEE, "ziv", "1234"));
+        createOrUpdateSingleRecord(new Employee(store2, Role.STORE_EMPLOYEE, "malcy", "1234"));
+        createOrUpdateSingleRecord(new Employee(store3, Role.STORE_EMPLOYEE, "messy", "1234"));
+        createOrUpdateSingleRecord(new Employee(store3, Role.STORE_EMPLOYEE, "george", "1234"));
+        createOrUpdateSingleRecord(new Employee(store3, Role.STORE_EMPLOYEE, "john", "1234"));
 
     }
 
 
-    public void addComplaintsToStores(Store store1, Store store2, Store store3){
+    public void addComplaintsToStores(Store store1, Store store2, Store store3) {
         Date dt = new Date();
         String time = dt.toString();
 
@@ -138,12 +139,13 @@ public class EntityFactory {
 //        store3.addComplaint(complaint7);
 //        store3.addComplaint(complaint8);
     }
-    public void addOredersToStoresStore(Store store1, Store store2, Store store3){
+
+    public void addOredersToStoresStore(Store store1, Store store2, Store store3) {
         Date dt = new Date();
         String timeNow = dt.toString();
         List<Item> generalItemList = App.createItemList();
         // ---- add items to database ----
-        for(Item item: generalItemList){
+        for (Item item : generalItemList) {
             createOrUpdateSingleRecord(item);
         }
 //        createOrUpdateSingleRecord(generalItemList.get(0));
@@ -164,9 +166,9 @@ public class EntityFactory {
         //----------- need to generate customers first! ------------
         // ---- create credit cards ----
         List<CreditCard> creditCards = new ArrayList<>();
-        creditCards.add(new CreditCard("1234123412341234", timeNow,"123"));
-        creditCards.add(new CreditCard("4321123412341234", timeNow,"821"));
-        creditCards.add(new CreditCard("1111123412341234", timeNow,"347"));
+        creditCards.add(new CreditCard("1234123412341234", timeNow, "123"));
+        creditCards.add(new CreditCard("4321123412341234", timeNow, "821"));
+        creditCards.add(new CreditCard("1111123412341234", timeNow, "347"));
 //        CreditCard creditCard1 = new CreditCard("1234123412341234", timeNow,"123");
 //        CreditCard creditCard2 = new CreditCard("4321123412341234", timeNow,"821");
 //        CreditCard creditCard3 = new CreditCard("1111123412341234", timeNow,"347");
@@ -179,16 +181,16 @@ public class EntityFactory {
 
         // same for customers and so on ...
 
-        Account account1 = new Account(timeNow,AccountType.STORE_ACCOUNT);
-        Account account2 = new Account(timeNow,AccountType.CHAIN_ACCOUNT);
-        Account account3 = new Account(timeNow,AccountType.ANNUAL_SUBSCRIPTION);
+        Account account1 = new Account(timeNow, AccountType.STORE_ACCOUNT);
+        Account account2 = new Account(timeNow, AccountType.CHAIN_ACCOUNT);
+        Account account3 = new Account(timeNow, AccountType.ANNUAL_SUBSCRIPTION);
         createOrUpdateSingleRecord(account1);
         createOrUpdateSingleRecord(account2);
         createOrUpdateSingleRecord(account3);
         List<Customer> customers = new ArrayList<>();
-        customers.add(new Customer("gil", "1234","גיל קרטגינר","חיפה 32","0542494993", false,creditCards.get(0),new ArrayList<Order>(),store1, account1));
-        customers.add(new Customer("yaron", "1111","ירון מלמד","חיפה 55","0542493123", false,creditCards.get(1),new ArrayList<Order>(),store1, account2));
-        customers.add(new Customer("ziv", "4444","זיו קרטגינר","הרצליה 32","0542453293", false,creditCards.get(2),new ArrayList<Order>(),store2, account3));
+        customers.add(new Customer("gil", "1234", "גיל קרטגינר", "חיפה 32", "0542494993", false, creditCards.get(0), new ArrayList<Order>(), store1, account1));
+        customers.add(new Customer("yaron", "1111", "ירון מלמד", "חיפה 55", "0542493123", false, creditCards.get(1), new ArrayList<Order>(), store1, account2));
+        customers.add(new Customer("ziv", "4444", "זיו קרטגינר", "הרצליה 32", "0542453293", false, creditCards.get(2), new ArrayList<Order>(), store2, account3));
 
 //        Customer customer1 = new Customer("gil", "1234","גיל קרטגינר","חיפה 32","0542494993", false,creditCard1,new ArrayList<Order>(),store1);
 //        Customer customer2 = new Customer("yaron", "1111","ירון מלמד","חיפה 55","0542493123", false,creditCard2,new ArrayList<Order>(),store1);
@@ -197,19 +199,19 @@ public class EntityFactory {
 //        createOrUpdateSingleRecord(customer1);
 //        createOrUpdateSingleRecord(customer2);
 //        createOrUpdateSingleRecord(customer3);
-        int i=0;
+        int i = 0;
 
 
-        for(CreditCard creditCard: creditCards){
+        for (CreditCard creditCard : creditCards) {
             createOrUpdateSingleRecord(creditCard);
         }
-        for (Customer customer:customers){
+        for (Customer customer : customers) {
             createOrUpdateSingleRecord(customer);
             creditCards.get(i).setCustomer(customer);
             i++;
         }
-        i=0;
-        for(CreditCard creditCard: creditCards){
+        i = 0;
+        for (CreditCard creditCard : creditCards) {
             creditCard.setCustomer(customers.get(i));
             i++;
         }
@@ -222,14 +224,14 @@ public class EntityFactory {
         itemList1.add(generalItemList.get(2));
         itemList1.add(generalItemList.get(3));
         DeliveryDetails deliveryDetails1 = new DeliveryDetails(timeNow, "05429384384", "גיל", "חיפה 42");
-        Order order1 = new Order(timeNow, "מזל טוב תתחדשי על הפרחים!", itemList1,100, 4, deliveryDetails1, null, null,customers.get(0));
+        Order order1 = new Order(timeNow, "מזל טוב תתחדשי על הפרחים!", itemList1, 100, 4, deliveryDetails1, null, null, customers.get(0));
         deliveryDetails1.setOrder(order1);
         List<Item> itemList2 = new ArrayList<>();
         itemList2.add(generalItemList.get(4));
         itemList2.add(generalItemList.get(5));
         itemList2.add(generalItemList.get(11));
         DeliveryDetails deliveryDetails2 = new DeliveryDetails(timeNow, "05429384384", "זיו", "חיפה, נווה שאנן 42");
-        Order order2 = new Order(timeNow, "מזל טוב תתחדשו על הפרחים שלכם, הם יפים!", itemList2,200, 4, deliveryDetails2, null, null, customers.get(1));
+        Order order2 = new Order(timeNow, "מזל טוב תתחדשו על הפרחים שלכם, הם יפים!", itemList2, 200, 4, deliveryDetails2, null, null, customers.get(1));
         deliveryDetails2.setOrder(order2);
         createOrUpdateSingleRecord(deliveryDetails1);
         createOrUpdateSingleRecord(deliveryDetails2);
@@ -242,13 +244,12 @@ public class EntityFactory {
         customers.get(1).addOrderToList(order2);
 
 
-
         List<Item> itemList3 = new ArrayList<>();
         itemList1.add(generalItemList.get(9));
         itemList1.add(generalItemList.get(8));
         itemList1.add(generalItemList.get(10));
         PickUpDetails pickUpDetails1 = new PickUpDetails(timeNow);
-        Order order3 = new Order(timeNow, "", itemList3,400, 4, null, pickUpDetails1, null, customers.get(2));
+        Order order3 = new Order(timeNow, "", itemList3, 400, 4, null, pickUpDetails1, null, customers.get(2));
         pickUpDetails1.setOrder(order3);
         customers.get(2).addOrderToList(order3);
         createOrUpdateSingleRecord(pickUpDetails1);
@@ -257,19 +258,34 @@ public class EntityFactory {
 
     }
 
-    public List<Store> getStores(){return getAllRecords(Store.class);}
-    public List<Employee> getEmployees(){
+    public List<Store> getStores() {
+        return getAllRecords(Store.class);
+    }
+
+    public List<Employee> getEmployees() {
         return getAllRecords(Employee.class);
     }
-    public List<Complaint> getComplaints(){
+
+    public List<Complaint> getComplaints() {
         return getAllRecords(Complaint.class);
     }
-    public List<Customer> getCustomers(){return getAllRecords(Customer.class);}
-    public List<Order> getOrders(){return getAllRecords(Order.class);}
 
+    public List<Customer> getCustomers() {
+        return getAllRecords(Customer.class);
+    }
 
-    public void addCustomer(Customer customer){
+    public List<Order> getOrders() {
+        return getAllRecords(Order.class);
+    }
+
+    public void addCustomer(Customer customer) {
         createOrUpdateSingleRecord(customer);
+    }
+
+    public void addAllEmployees(List<Employee> employees) {
+        for (Employee e : employees) {
+            createOrUpdateSingleRecord(e);
+        }
     }
 
 

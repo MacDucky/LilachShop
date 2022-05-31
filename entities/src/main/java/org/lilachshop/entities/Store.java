@@ -80,4 +80,8 @@ public class Store implements Serializable {
         this.orders.add(order);
     }
 
+    @Override
+    public String toString() {
+        return storeName;
+    }
 }
