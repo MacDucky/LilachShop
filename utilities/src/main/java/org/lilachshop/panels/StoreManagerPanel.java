@@ -12,4 +12,7 @@ public class StoreManagerPanel extends GeneralEmployeePanel {
     public void getStoreOrders(long storeID){
         sendToServer(new ReportsRequest("get store orders", storeID));
     }
+    public void getStoreCatalog(long storeID){
+        sendToServer(new ReportsRequest("get store catalog", storeID));
+    }
 }

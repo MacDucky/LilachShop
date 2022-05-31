@@ -26,6 +26,10 @@ public class Order implements Serializable {
         this.customer = customer;
     }
 
+    public List<Item> getItems() {
+        return items;
+    }
+
     public void setStore(Store store) {
         this.store = store;
     }
