@@ -14,7 +14,6 @@ public class Employee extends User implements Serializable {
     @Enumerated(EnumType.STRING)
     Role role;
 
-
     public Employee(Store store, Role role, String userName, String userPassword) {
         super(userName, userPassword);
         this.store = store;

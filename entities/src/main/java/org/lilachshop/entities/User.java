@@ -13,6 +13,10 @@ public class User implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    String userName;
+    String userPassword;
+
+
     public User(String userName, String userPassword) {
         this.userName = userName;
         this.userPassword = userPassword;
@@ -33,7 +37,6 @@ public class User implements Serializable {
 
     protected User() {
     }
-
 
     public Long getId() {
         return id;

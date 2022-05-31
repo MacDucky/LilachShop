@@ -22,6 +22,7 @@ public class LilachServer extends AbstractServer {
             System.out.println("Unable to setup EntityFactory.");
             throw e;
         }
+//        entityFactory.fillDataBase();
     }
 
     @Override
@@ -97,7 +98,6 @@ public class LilachServer extends AbstractServer {
             }
         }
 
-
         //************************** Store Request ***********************************
 
         if (msg.getClass().equals(StoreRequest.class)) {
@@ -114,32 +114,6 @@ public class LilachServer extends AbstractServer {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }
-            }
-        }
-
-
-
-        //************************Employee Edit Request******************************
-        if (msg.getClass().equals(EmployeeEditRequest.class)) {
-            System.out.println("Got EmployeeEditRequest...");
-            EmployeeEditRequest request = (EmployeeEditRequest) msg;
-            String message_from_client = request.getRequest();
-            System.out.println("Message content: <"+message_from_client+">");
-            switch (message_from_client) {
-                case "GET_ALL_EMPLOYEES" -> {
-                    List<Employee> employees = entityFactory.getEmployees();
-                    try {
-                        client.sendToClient(employees);
-                    } catch (IOException e) {
-                        System.out.println("Could not send list of employees to client.");
-                        e.printStackTrace();
-                    }
-                }
-                case "SET_ALL_EMPLOYEES" -> {
-                    List<Employee> employees = request.getAllEmployeesToEdit();
-                    System.out.println("Setting #" + employees.size() + " employees...");
-                    entityFactory.addAllEmployees(employees);
                 }
             }
         }
