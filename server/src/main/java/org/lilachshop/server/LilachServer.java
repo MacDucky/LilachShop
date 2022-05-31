@@ -72,7 +72,7 @@ public class LilachServer extends AbstractServer {
             }
         }
 
-        //************************ Employee Edit Request***********************
+        //************************** Employee edit Request ***********************************
 
         if (msg.getClass().equals(EmployeeEditRequest.class)) {
             System.out.println("Got EmployeeEditRequest...");
@@ -97,7 +97,54 @@ public class LilachServer extends AbstractServer {
             }
         }
 
-        //************************ Employee Login Request***********************
+
+        //************************** Store Request ***********************************
+
+        if (msg.getClass().equals(StoreRequest.class)) {
+            StoreRequest request = (StoreRequest) msg;
+            String messageFromClient = request.getRequest();
+
+
+            switch (messageFromClient) {
+                //CASE: want to get list of store, example for common usage - choiceBox
+                case "get all stores" -> {
+                    List<Store> allStores = entityFactory.getAllStores();
+                    try {
+                        client.sendToClient(allStores);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
+
+
+        //************************Employee Edit Request******************************
+        if (msg.getClass().equals(EmployeeEditRequest.class)) {
+            System.out.println("Got EmployeeEditRequest...");
+            EmployeeEditRequest request = (EmployeeEditRequest) msg;
+            String message_from_client = request.getRequest();
+            System.out.println("Message content: <"+message_from_client+">");
+            switch (message_from_client) {
+                case "GET_ALL_EMPLOYEES" -> {
+                    List<Employee> employees = entityFactory.getEmployees();
+                    try {
+                        client.sendToClient(employees);
+                    } catch (IOException e) {
+                        System.out.println("Could not send list of employees to client.");
+                        e.printStackTrace();
+                    }
+                }
+                case "SET_ALL_EMPLOYEES" -> {
+                    List<Employee> employees = request.getAllEmployeesToEdit();
+                    System.out.println("Setting #" + employees.size() + " employees...");
+                    entityFactory.addAllEmployees(employees);
+                }
+            }
+        }
+
+        //************************Employee Login Request*****************************
 
         if (msg.getClass().equals(EmployeeLoginRequest.class)) {
             EmployeeLoginRequest request = (EmployeeLoginRequest) msg;
@@ -122,7 +169,6 @@ public class LilachServer extends AbstractServer {
                 e.printStackTrace();
             }
         }
-
 
         //************************ SignUp Request********************************
 
