@@ -3,7 +3,6 @@ package org.lilachshop.entities;
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.List;
 @Transactional
 @Entity
@@ -14,7 +13,7 @@ public class Order implements Serializable {
 //    @Column(name = "id", nullable = false)
     private Long id;
 
-    public Order(LocalDate creationDate, String greetingCard, List<Item> items, int totalPrice, int amountOfProducts, DeliveryDetails deliveryDetails, PickUpDetails pickUpDetails, Complaint complaint, Customer customer) {
+    public Order(String creationDate, String greetingCard, List<Item> items, int totalPrice, int amountOfProducts, DeliveryDetails deliveryDetails, PickUpDetails pickUpDetails, Complaint complaint, Customer customer) {
         this.creationDate = creationDate;
         this.greetingCard = greetingCard;
         this.items = items;
@@ -26,22 +25,7 @@ public class Order implements Serializable {
         this.customer = customer;
     }
 
-    public List<Item> getItems() {
-        return items;
-    }
-
-    public void setStore(Store store) {
-        this.store = store;
-    }
-
-    public int getTotalPrice() {
-        return totalPrice;
-    }
-
-    @ManyToOne
-    Store store;
-
-    LocalDate creationDate;
+    String creationDate;
     String greetingCard;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     List<Item> items;
@@ -60,10 +44,6 @@ public class Order implements Serializable {
 
     protected Order() {
 
-    }
-
-    public LocalDate getCreationDate() {
-        return creationDate;
     }
 
     public Long getId() {

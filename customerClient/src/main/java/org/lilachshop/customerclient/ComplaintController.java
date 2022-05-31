@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import org.lilachshop.entities.Complaint;
@@ -44,7 +43,7 @@ public class ComplaintController implements Initializable {
         a.show();
 
 
-        Complaint complaint = new Complaint(LocalDate.of(2022, 5, 28), "פתוח", complaintText.getText(), LocalDate.of(2022, 5, 27), "");
+        Complaint complaint = new Complaint(String.valueOf(java.time.LocalDate.now()), "פתוח", complaintText.getText(), String.valueOf(java.time.LocalDate.now()), "");
 
         ((StoreCustomerPanel) panel).sendComplaintToServer(complaint);
 //        ((StoreCustomerPanel) panel).sendGetGeneralCatalogRequestToServer();

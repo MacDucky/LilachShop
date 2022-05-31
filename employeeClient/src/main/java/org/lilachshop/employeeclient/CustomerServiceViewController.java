@@ -97,7 +97,6 @@ public class CustomerServiceViewController implements Initializable {
         ObservableList<Complaint> listOfComplaints = tableView.getSelectionModel().getSelectedItems();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("complaintWorkerResponse.fxml"));
         Parent root1 = (Parent) fxmlLoader.load();
-
         ComplaintWorkerResponseController controller = fxmlLoader.getController();
 
         try{

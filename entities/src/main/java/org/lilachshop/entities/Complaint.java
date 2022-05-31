@@ -4,8 +4,6 @@ package org.lilachshop.entities;
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
-import java.time.LocalDate;
-
 @Transactional
 
 @Entity
@@ -16,8 +14,8 @@ public class Complaint implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    LocalDate creationDate;
-    LocalDate endOfHandleDate;
+    String creationDate;
+    String endOfHandleDate;
     String status;
     String content;
     String reply;
@@ -43,7 +41,7 @@ public class Complaint implements Serializable {
         return id;
     }
 
-    public Complaint(LocalDate endOfHandleDate, String status, String content, LocalDate creationDate, String reply) {
+    public Complaint(String endOfHandleDate, String status, String content, String creationDate, String reply) {
         this.endOfHandleDate = endOfHandleDate;
         this.status = status;
         this.content = content;
@@ -51,11 +49,11 @@ public class Complaint implements Serializable {
         this.reply = reply;
     }
 
-    public LocalDate getCreationDate() {
+    public String getCreationDate() {
         return endOfHandleDate;
     }
 
-    public void setCreationDate(LocalDate creationDate) {
+    public void setCreationDate(String creationDate) {
         this.endOfHandleDate = creationDate;
     }
 
