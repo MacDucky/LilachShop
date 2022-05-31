@@ -78,7 +78,6 @@ public class LilachServer extends AbstractServer {
             StoreRequest request = (StoreRequest) msg;
             String messageFromClient = request.getRequest();
 
-
             switch (messageFromClient) {
                 //CASE: want to get list of store, example for common usage - choiceBox
                 case "get all stores" -> {
