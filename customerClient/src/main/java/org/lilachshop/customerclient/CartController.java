@@ -24,6 +24,8 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.lilachshop.entities.Item;
+import org.lilachshop.entities.Order;
 
 public class CartController implements Initializable {
     List<myOrderItem> myFlowers = new ArrayList<>();
@@ -61,26 +63,18 @@ public class CartController implements Initializable {
 
     @FXML // fx:id="name"
     private Label name; // Value injected by FXMLLoader
+    private Scene catalogScene;
+    private CatalogController catalogController;
 
     /**
      * go from cart.fxml to main.fxml
      * load the catalog
      */
     @FXML
-    void returnToCatalog(MouseEvent event) {
+    void returnToCatalog(MouseEvent event) throws IOException {
         Stage stage = App.getStage();
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(CartController.class.getResource("main.fxml"));
-            Parent root = fxmlLoader.load();
-            CatalogController catalogController = fxmlLoader.getController();
-            catalogController.setMyFlowers(myFlowers);
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        stage.setScene(catalogScene);
+        stage.show();
     }
 
     @FXML
@@ -90,6 +84,14 @@ public class CartController implements Initializable {
 
     @FXML
     void onCreateOrder(ActionEvent event) {
+        List<Item> myItems = new ArrayList<Item>();
+        for (myOrderItem flower : myFlowers)
+        {
+            for (int i = 0; i < myFlowers.size(); i++)
+            {
+                myItems.add(flower.getFlower());
+            }
+        }
         if(Integer.parseInt(count.getText()) > 0)
         {
             Stage stage = App.getStage();
@@ -97,8 +99,8 @@ public class CartController implements Initializable {
                 FXMLLoader fxmlLoader1 = new FXMLLoader(CartController.class.getResource("OrderStage1.fxml"));
                 Parent root = fxmlLoader1.load();
                 OrderStage1Controller orderStage1Controller = fxmlLoader1.getController();
-                Order myOrder = new Order(myFlowers);
-                orderStage1Controller.showInfo(myOrder);
+                Order myOrder = new Order(myItems,sum,countItem,catalogController.customer);
+                orderStage1Controller.showInfo(myOrder,catalogScene,catalogController);
                 stage.setScene(new Scene(root));
                 stage.show();
             } catch (IOException e) {
@@ -124,8 +126,10 @@ public class CartController implements Initializable {
     /**
      * upload the data of the order
      */
-    public void showInfo(List<myOrderItem> myFlowers) {
-        this.myFlowers = myFlowers;
+    public void showInfo(CatalogController catalogController,Scene catalogScene) {
+        this.catalogController = catalogController;
+        this.catalogScene = catalogScene;
+        this.myFlowers = catalogController.getMyFlowers();
         for (int i = 0; i < myFlowers.size(); i++) {
             //calculate the sum price of the order
             sum += (myFlowers.get(i).getFlower().getPercent() > 0 ? myFlowers.get(i).getFlower().getPrice() * (100 - myFlowers.get(i).getFlower().getPercent()) / 100 : myFlowers.get(i).getFlower().getPrice())*myFlowers.get(i).getCount();
@@ -175,19 +179,30 @@ public class CartController implements Initializable {
                     myFlowers.remove(cartEvent.updateFlower);
                 }
                 count.setText(String.valueOf(Integer.parseInt(count.getText())-1));
-                if (cartEvent.updateFlower.getFlower().getPercent() > 0)
-                    finalPrice.setText(String.valueOf(Integer.parseInt(finalPrice.getText())-(cartEvent.updateFlower.getFlower().getPrice()*(100- cartEvent.updateFlower.getFlower().getPercent())/100)));
-                else
-                    finalPrice.setText(String.valueOf(Integer.parseInt(finalPrice.getText())- cartEvent.updateFlower.getFlower().getPrice()));
+                countItem--;
+                catalogController.setCountItems(countItem);
+                if (cartEvent.updateFlower.getFlower().getPercent() > 0) {
+                    sum -= cartEvent.updateFlower.getFlower().getPrice() * (100 - cartEvent.updateFlower.getFlower().getPercent()) / 100;
+                }else {
+                    sum -= cartEvent.updateFlower.getFlower().getPrice();
+                }
+                finalPrice.setText(String.valueOf(sum));
             });
         }
         else if(cartEvent.action == "add")
         {
             count.setText(String.valueOf(Integer.parseInt(count.getText())+1));
-            if (cartEvent.updateFlower.getFlower().getPercent() > 0)
-                finalPrice.setText(String.valueOf(Integer.parseInt(finalPrice.getText())+(cartEvent.updateFlower.getFlower().getPrice()*(100- cartEvent.updateFlower.getFlower().getPercent())/100)));
-            else
-                finalPrice.setText(String.valueOf(Integer.parseInt(finalPrice.getText())+ cartEvent.updateFlower.getFlower().getPrice()));
+            countItem++;
+            catalogController.setCountItems(countItem);
+            if (cartEvent.updateFlower.getFlower().getPercent() > 0) {
+                sum += cartEvent.updateFlower.getFlower().getPrice()*(100- cartEvent.updateFlower.getFlower().getPercent())/100;
+
+            }
+            else {
+                sum += cartEvent.updateFlower.getFlower().getPrice();
+            }
+            finalPrice.setText(String.valueOf(sum));
+
         }
     }
 }

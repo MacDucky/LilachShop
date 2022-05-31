@@ -18,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.lilachshop.entities.Order;
 
 public class OrderStage1Controller {
 
@@ -37,6 +38,8 @@ public class OrderStage1Controller {
 
     @FXML // fx:id="next"
     private Button next; // Value injected by FXMLLoader
+    private Scene catalogScene;
+    private CatalogController catalogController;
 
     @FXML
     void gotoSignUpOrPersonalArea(MouseEvent event) {
@@ -46,18 +49,8 @@ public class OrderStage1Controller {
     @FXML
     void returnToCatalog(MouseEvent event) {
         Stage stage = App.getStage();
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(CartController.class.getResource("main.fxml"));
-            Parent root = fxmlLoader.load();
-            CatalogController catalogController = fxmlLoader.getController();
-            catalogController.setMyFlowers(myOrder.getMyOrder());
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
+        stage.setScene(catalogScene);
+        stage.show();
     }
 
     @FXML
@@ -65,10 +58,14 @@ public class OrderStage1Controller {
     {
             Stage stage = App.getStage();
             try {
+                if (cardField.getText().equals(""))
+                    myOrder.setGreetingCard(null);
+                else
+                    myOrder.setGreetingCard(cardField.getText());
                 FXMLLoader fxmlLoader1 = new FXMLLoader(CartController.class.getResource("OrderStage2.fxml"));
                 Parent root = fxmlLoader1.load();
                 OrderStage2Controller orderStage2Controller = fxmlLoader1.getController();
-                orderStage2Controller.showInfo(myOrder);
+                orderStage2Controller.showInfo(myOrder,catalogScene,catalogController);
                 stage.setScene(new Scene(root));
                 stage.show();
             } catch (IOException e) {
@@ -82,7 +79,9 @@ public class OrderStage1Controller {
 
     }
 
-    public void showInfo(Order order) {
+    public void showInfo(Order order, Scene catalogScene, CatalogController catalogController) {
         myOrder = order;
+        this.catalogScene = catalogScene;
+        this.catalogController = catalogController;
     }
 }

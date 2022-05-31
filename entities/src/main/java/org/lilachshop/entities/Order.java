@@ -14,6 +14,29 @@ public class Order implements Serializable {
 //    @Column(name = "id", nullable = false)
     private Long id;
 
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public void setGreetingCard(String greetingCard) {
+        this.greetingCard = greetingCard;
+    }
+
+    public void setDeliveryDetails(DeliveryDetails deliveryDetails) {
+        this.deliveryDetails = deliveryDetails;
+    }
+
+    public void setPickUpDetails(PickUpDetails pickUpDetails) {
+        this.pickUpDetails = pickUpDetails;
+    }
+
+    public Order(List<Item> items, int totalPrice, int amountOfProducts, Customer customer)
+    {
+        this.items = items;
+        this.totalPrice = totalPrice;
+        this.amountOfProducts = amountOfProducts;
+        this.customer = customer;
+    }
     public Order(LocalDate creationDate, String greetingCard, List<Item> items, int totalPrice, int amountOfProducts, DeliveryDetails deliveryDetails, PickUpDetails pickUpDetails, Complaint complaint, Customer customer) {
         this.creationDate = creationDate;
         this.greetingCard = greetingCard;
@@ -40,8 +63,6 @@ public class Order implements Serializable {
 
     @ManyToOne
     Store store;
-
-    LocalDate creationDate;
     String greetingCard;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     List<Item> items;
@@ -57,6 +78,8 @@ public class Order implements Serializable {
 
     @ManyToOne
     Customer customer;
+
+    LocalDate creationDate;
 
     protected Order() {
 

@@ -6,6 +6,7 @@ package org.lilachshop.customerclient;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,11 +23,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.lilachshop.entities.Order;
 
 public class OrderStage2Controller {
     Order myOrder;
     boolean deliveryBool = false;
     boolean pickupBool = false;
+    private Scene catalogScene;
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -80,13 +83,14 @@ public class OrderStage2Controller {
     private CheckBox selfRecieveImm; // Value injected by FXMLLoader
 
     @FXML // fx:id="selfTime"
-    private ComboBox<?> selfTime; // Value injected by FXMLLoader
+    private ComboBox<String> selfTime; // Value injected by FXMLLoader
 
     @FXML // fx:id="shopNum"
     private Text shopNum; // Value injected by FXMLLoader
 
     @FXML // fx:id="time"
-    private ComboBox<?> time; // Value injected by FXMLLoader
+    private ComboBox<String> time; // Value injected by FXMLLoader
+    private CatalogController catalogController;
 
     @FXML
     void gotoNext(ActionEvent event) {
@@ -95,7 +99,7 @@ public class OrderStage2Controller {
             FXMLLoader fxmlLoader1 = new FXMLLoader(CartController.class.getResource("OrderStage3.fxml"));
             Parent root = fxmlLoader1.load();
             OrderStage3Controller orderStage3Controller = fxmlLoader1.getController();
-            orderStage3Controller.showInfo(myOrder);
+            orderStage3Controller.showInfo(myOrder,catalogScene,catalogController);
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
@@ -110,7 +114,7 @@ public class OrderStage2Controller {
             FXMLLoader fxmlLoader1 = new FXMLLoader(CartController.class.getResource("OrderStage1.fxml"));
             Parent root = fxmlLoader1.load();
             OrderStage1Controller orderStage1Controller = fxmlLoader1.getController();
-            orderStage1Controller.showInfo(myOrder);
+            orderStage1Controller.showInfo(myOrder, catalogScene, catalogController);
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
@@ -127,16 +131,8 @@ public class OrderStage2Controller {
     @FXML
     void returnToCatalog(MouseEvent event) {
         Stage stage = App.getStage();
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(CartController.class.getResource("main.fxml"));
-            Parent root = fxmlLoader.load();
-            CatalogController catalogController = fxmlLoader.getController();
-            catalogController.setMyFlowers(myOrder.getMyOrder());
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        stage.setScene(catalogScene);
+        stage.show();
     }
 
     @FXML
@@ -179,10 +175,13 @@ public class OrderStage2Controller {
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
-
+        selfTime.getItems().addAll("8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00","17:00","18:00","19:00","20:00");
+        time.getItems().addAll("8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00","17:00","18:00","19:00","20:00");
     }
 
-    public void showInfo(Order order) {
+    public void showInfo(Order order, Scene catalogScene, CatalogController catalogController) {
         myOrder = order;
+        this.catalogScene = catalogScene;
+        this.catalogController = catalogController;
     }
 }

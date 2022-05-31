@@ -6,8 +6,8 @@ package org.lilachshop.customerclient;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +17,8 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
+import org.lilachshop.entities.Order;
 
 public class OrderStage4Controller {
 
@@ -48,6 +50,8 @@ public class OrderStage4Controller {
     private TextField valid; // Value injected by FXMLLoader
 
     Order myOrder;
+    private Scene catalogScene;
+    private CatalogController catalogController;
 
     @FXML
     void endOrder(ActionEvent event) {
@@ -60,16 +64,10 @@ public class OrderStage4Controller {
         Optional<ButtonType> result = a.showAndWait();
         if (result.get() == ButtonType.OK) {
             Stage stage = App.getStage();
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(CartController.class.getResource("main.fxml"));
-                Parent root = fxmlLoader.load();
-                CatalogController catalogController = fxmlLoader.getController();
-                catalogController.setMyFlowers(myOrder.getMyOrder());
-                stage.setScene(new Scene(root));
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            stage.setScene(catalogScene);
+            catalogController.setCountItems(0);
+            catalogController.setMyFlowers(new ArrayList<myOrderItem>());
+            stage.show();
         }
 
     }
@@ -81,7 +79,7 @@ public class OrderStage4Controller {
             FXMLLoader fxmlLoader = new FXMLLoader(CartController.class.getResource("OrderStage3.fxml"));
             Parent root = fxmlLoader.load();
             OrderStage3Controller orderStage3Controller = fxmlLoader.getController();
-            orderStage3Controller.showInfo(myOrder);
+            orderStage3Controller.showInfo(myOrder, catalogScene, catalogController);
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
@@ -97,16 +95,8 @@ public class OrderStage4Controller {
     @FXML
     void returnToCatalog(MouseEvent event) {
         Stage stage = App.getStage();
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(CartController.class.getResource("main.fxml"));
-            Parent root = fxmlLoader.load();
-            CatalogController catalogController = fxmlLoader.getController();
-            catalogController.setMyFlowers(myOrder.getMyOrder());
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        stage.setScene(catalogScene);
+        stage.show();
 
     }
 
@@ -122,7 +112,9 @@ public class OrderStage4Controller {
 
     }
 
-    public void showInfo(Order order) {
+    public void showInfo(Order order, Scene catalogScene, CatalogController catalogController) {
         myOrder = order;
+        this.catalogScene = catalogScene;
+        this.catalogController = catalogController;
     }
 }

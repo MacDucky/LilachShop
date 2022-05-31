@@ -18,6 +18,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.lilachshop.entities.Order;
 
 public class OrderStage3Controller {
     Order order;
@@ -48,6 +49,8 @@ public class OrderStage3Controller {
 
     @FXML // fx:id="totalPrice"
     private Text totalPrice; // Value injected by FXMLLoader
+    private Scene catalogScene;
+    private CatalogController catalogController;
 
     @FXML
     void gotoNext(ActionEvent event) {
@@ -56,7 +59,7 @@ public class OrderStage3Controller {
             FXMLLoader fxmlLoader1 = new FXMLLoader(CartController.class.getResource("OrderStage4.fxml"));
             Parent root = fxmlLoader1.load();
             OrderStage4Controller orderStage4Controller = fxmlLoader1.getController();
-            orderStage4Controller.showInfo(order);
+            orderStage4Controller.showInfo(order,catalogScene,catalogController);
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
@@ -72,7 +75,7 @@ public class OrderStage3Controller {
             FXMLLoader fxmlLoader1 = new FXMLLoader(CartController.class.getResource("OrderStage2.fxml"));
             Parent root = fxmlLoader1.load();
             OrderStage2Controller orderStage2Controller = fxmlLoader1.getController();
-            orderStage2Controller.showInfo(order);
+            orderStage2Controller.showInfo(order, catalogScene, catalogController);
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
@@ -89,17 +92,8 @@ public class OrderStage3Controller {
     @FXML
     void returnToCatalog(MouseEvent event) {
         Stage stage = App.getStage();
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(CartController.class.getResource("main.fxml"));
-            Parent root = fxmlLoader.load();
-            CatalogController catalogController = fxmlLoader.getController();
-            catalogController.setMyFlowers(order.getMyOrder());
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        stage.setScene(catalogScene);
+        stage.show();
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -115,7 +109,9 @@ public class OrderStage3Controller {
     }
 
 
-    public void showInfo(Order myOrder) {
+    public void showInfo(Order myOrder, Scene catalogScene, CatalogController catalogController) {
         order = myOrder;
+        this.catalogScene = catalogScene;
+        this.catalogController = catalogController;
     }
 }

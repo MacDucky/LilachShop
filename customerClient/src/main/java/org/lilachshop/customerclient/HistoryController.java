@@ -18,9 +18,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.lilachshop.entities.Customer;
+import org.lilachshop.entities.Order;
 
 public class HistoryController {
     List<myOrderItem> myFlowers = new ArrayList<myOrderItem>();
+    CatalogController controllerInstance;
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
 
@@ -32,26 +35,19 @@ public class HistoryController {
 
     @FXML // fx:id="name"
     private Label name; // Value injected by FXMLLoader
+    private List<Order> orders;
+
+    private Scene catalogScene;
+
 
     @FXML
     void returnToCatalog(MouseEvent event) {
+
         Stage stage = App.getStage();
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(CartController.class.getResource("main.fxml"));
-            Parent root = fxmlLoader.load();
-            CatalogController catalogController = fxmlLoader.getController();
-            catalogController.setMyFlowers(myFlowers);
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        stage.setScene(catalogScene);
+        stage.show();
 
     }
-
-   /* public void showInfo(List<myOrderItem> myFlowers) {
-        this.myFlowers = myFlowers;
-    }*/
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
@@ -67,4 +63,9 @@ public class HistoryController {
 
     }
 
+    public void setData(CatalogController catalogController,Scene catalogScene) {
+        this.controllerInstance = catalogController;
+        this.orders = controllerInstance.customer.getOrders();
+        this.catalogScene = catalogScene;
+    }
 }
