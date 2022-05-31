@@ -22,7 +22,7 @@ public class LilachServer extends AbstractServer {
             System.out.println("Unable to setup EntityFactory.");
             throw e;
         }
-//        entityFactory.fillDataBase();
+        entityFactory.fillDataBase();
     }
 
     @Override
@@ -36,40 +36,62 @@ public class LilachServer extends AbstractServer {
             }
             return;
         }
-        if(msg.getClass().equals(ReportsRequest.class)){
+        //************************** Report Request ***********************************
+        if (msg.getClass().equals(ReportsRequest.class)) {
             ReportsRequest request = (ReportsRequest) msg;
             String message_from_client = request.getRequest();
 
-            switch (message_from_client){
-                case "get store complaints"->{
+            switch (message_from_client) {
+                case "get store complaints" -> {
                     long storeID = request.getStoreID();
                     List<Complaint> complaints = entityFactory.getComplaintsByStoreId(storeID);
                     try {
                         client.sendToClient(complaints);
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-                case "get store orders"->{
+                case "get store orders" -> {
                     long storeID = request.getStoreID();
                     List<Order> orders = entityFactory.getOrdersByStoreId(storeID);
                     try {
                         client.sendToClient(orders);
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-                case "get store catalog"->{
+                case "get store catalog" -> {
                     long storeID = request.getStoreID();
                     Catalog catalog = entityFactory.getSingleCatalogEntityRecord(storeID);
                     try {
                         client.sendToClient(catalog);
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             }
         }
+
+        //************************** Store Request ***********************************
+
+        if (msg.getClass().equals(StoreRequest.class)) {
+            StoreRequest request = (StoreRequest) msg;
+            String messageFromClient = request.getRequest();
+
+
+            switch (messageFromClient) {
+                //CASE: want to get list of store, example for common usage - choiceBox
+                case "get all stores" -> {
+                    List<Store> allStores = entityFactory.getAllStores();
+                    try {
+                        client.sendToClient(allStores);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        //************************Employee Login Request*****************************
         if (msg.getClass().equals(EmployeeLoginRequest.class)) {
             EmployeeLoginRequest request = (EmployeeLoginRequest) msg;
             String userName = request.getUserName();
@@ -94,12 +116,16 @@ public class LilachServer extends AbstractServer {
             }
         }
 
+        //************************ SignUp Request********************************
+
         if (msg.getClass().equals(SignUpRequest.class)) {
             SignUpRequest request = (SignUpRequest) msg;
-            System.out.println("Server: got new signup request...");
+            System.out.println("Server: got new signup request with username: " + request.getCustomer().getUserName());
             entityFactory.addCustomer(request.getCustomer());
         }
 
+
+        //************************ Customer Login Request************************
         if (msg.getClass().equals(CustomerLoginRequest.class)) {
             CustomerLoginRequest request = (CustomerLoginRequest) msg;
             String message_from_client = request.getRequest();
@@ -134,6 +160,7 @@ public class LilachServer extends AbstractServer {
             }
         }
 
+        //************************ User Complaint Request*****************************
         if (msg.getClass().equals(UserComplaintRequest.class)) {
             UserComplaintRequest request = (UserComplaintRequest) msg;
             String message_from_client = request.getRequest();
@@ -150,6 +177,10 @@ public class LilachServer extends AbstractServer {
 
             }
         }
+
+
+        //************************ Support Complaint Request*****************************
+
         if (msg.getClass().equals(SupportComplaintRequest.class)) {
             SupportComplaintRequest request = (SupportComplaintRequest) msg;
             String message_from_client = request.getRequest();
@@ -190,6 +221,10 @@ public class LilachServer extends AbstractServer {
 //            }
 //
 //        }
+
+
+        //************************ Catalog Request*****************************
+
         if (msg.getClass().equals(CatalogRequest.class)) {
             CatalogRequest request = (CatalogRequest) msg;
             String message_from_client = request.getRequest();
@@ -203,10 +238,6 @@ public class LilachServer extends AbstractServer {
                         for (Item item : items) {
                             System.out.println(item);
                         }
-                    }
-                    case "get general catalog" ->{
-                        List<Catalog> catalogs = entityFactory.getAllCatalogs();
-
                     }
                     default -> {
                         client.sendToClient("request does not exist");
