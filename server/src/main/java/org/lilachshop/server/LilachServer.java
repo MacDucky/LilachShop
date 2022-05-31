@@ -98,6 +98,15 @@ public class LilachServer extends AbstractServer {
                         e.printStackTrace();
                     }
                 }
+                case "get store catalog"->{
+                    long storeID = request.getStoreID();
+                    Catalog catalog = entityFactory.getSingleCatalogEntityRecord(storeID);
+                    try {
+                        client.sendToClient(catalog);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
             }
         }
         //************************Employee Login Request*****************************
