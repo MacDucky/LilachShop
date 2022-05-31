@@ -2,17 +2,22 @@ package org.lilachshop.employeeclient;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.entities.Complaint;
 import org.lilachshop.entities.Order;
 import org.lilachshop.panels.*;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
@@ -21,6 +26,8 @@ import java.util.ResourceBundle;
 public class IncomeReportController implements Initializable {
     private static Panel panel;
     List<Order> orders;
+    @FXML
+    private Button newScreenBtn;
     @FXML
     private Label chooseStoreLabel;
 
@@ -109,6 +116,7 @@ public class IncomeReportController implements Initializable {
             ((StoreManagerPanel) panel).getStoreOrders(1);
             storeList.setVisible(false);
             chooseStoreLabel.setVisible(false);
+            newScreenBtn.setVisible(false);
         }
         storeList.getItems().addAll("לילך חיפה", "לילך תל אביב", "לילך הרצליה", "לילך עכו", "לילך באר שבע");
         //todo: if chain manger is logged in, do haifa, if store manger logged in, do store managers store
@@ -130,6 +138,15 @@ public class IncomeReportController implements Initializable {
         a.setTitle("בחירת טווח תאריכים");
         a.setContentText("");
         a.show();
+    }
+
+    @FXML
+    void onNewScreenBtnClick(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("IncomeReport.fxml"));
+        Parent root1 = (Parent) fxmlLoader.load();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root1));
+        stage.show();
     }
     @Subscribe
     public void handleMessageFromClient(List<Order> orders){

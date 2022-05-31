@@ -3,13 +3,18 @@ package org.lilachshop.employeeclient;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.entities.Complaint;
 import org.lilachshop.panels.*;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.chrono.Chronology;
@@ -21,6 +26,9 @@ import javafx.event.ActionEvent;
 public class ComplaintReportController implements Initializable {
     private static Panel panel;
     List<Complaint> complaints;
+    @FXML
+    private Button newScreenBtn;
+
     @FXML
     private BarChart<?, ?> complaintBarChart;
 
@@ -54,6 +62,7 @@ public class ComplaintReportController implements Initializable {
             ((StoreManagerPanel) panel).getStoreComplaint(1);
             storeList.setVisible(false);
             chooseStoreLabel.setVisible(false);
+            newScreenBtn.setVisible(false);
         }
         storeList.getItems().addAll("לילך חיפה", "לילך תל אביב", "לילך הרצליה", "לילך עכו", "לילך באר שבע");
         //todo: if chain manger is logged in, do haifa, if store manger logged in, do store managers store
@@ -120,6 +129,14 @@ public class ComplaintReportController implements Initializable {
         else if(selectedStore.equals("לילך חיפה")){
             ((ChainManagerPanel) panel).getStoreComplaint(1);
         }
+    }
+    @FXML
+    void onNewScreenBtnClick(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ComplaintReport.fxml"));
+        Parent root1 = (Parent) fxmlLoader.load();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root1));
+        stage.show();
     }
 
     @Subscribe

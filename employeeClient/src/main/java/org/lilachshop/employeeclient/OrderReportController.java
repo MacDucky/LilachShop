@@ -3,15 +3,22 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.entities.Catalog;
 import org.lilachshop.entities.Item;
 import org.lilachshop.entities.Order;
 import org.lilachshop.panels.*;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,6 +30,8 @@ public class OrderReportController implements Initializable {
     Catalog catalog;
     List<Order> orders;
     ObservableList<ItemSalesObservable> listOfObservableItems;
+    @FXML
+    private Button newScreenBtn;
 
     @FXML
     private Label chooseStoreLabel;
@@ -136,6 +145,7 @@ public class OrderReportController implements Initializable {
             ((StoreManagerPanel) panel).getStoreCatalog(1);
             storeList.setVisible(false);
             chooseStoreLabel.setVisible(false);
+            newScreenBtn.setVisible(false);
         }
         storeList.getItems().addAll("לילך חיפה", "לילך תל אביב", "לילך הרצליה", "לילך עכו", "לילך באר שבע");
         //todo: if chain manger is logged in, do haifa, if store manger logged in, do store managers store
@@ -162,6 +172,14 @@ public class OrderReportController implements Initializable {
         a.setTitle("בחירת טווח תאריכים");
         a.setContentText("");
         a.show();
+    }
+    @FXML
+    void onNewScreenBtnClick(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("OrderReport.fxml"));
+        Parent root1 = (Parent) fxmlLoader.load();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root1));
+        stage.show();
     }
 
     @Subscribe

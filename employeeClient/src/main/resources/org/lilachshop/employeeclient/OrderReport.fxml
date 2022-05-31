@@ -11,7 +11,7 @@
 
 <AnchorPane prefHeight="649.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.employeeclient.OrderReportController">
    <children>
-      <TableView fx:id="tableView" layoutX="89.0" layoutY="31.0" prefHeight="428.0" prefWidth="573.0">
+      <TableView fx:id="tableView" layoutX="89.0" layoutY="52.0" prefHeight="428.0" prefWidth="573.0">
          <columns>
             <TableColumn fx:id="OrderNumber" prefWidth="197.0" text="מספר הזמנות" />
             <TableColumn fx:id="Price" minWidth="6.0" prefWidth="134.0" text="מחיר" />
@@ -21,12 +21,13 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </TableView>
-      <DatePicker fx:id="endDate" layoutX="159.0" layoutY="519.0" prefHeight="25.0" prefWidth="69.0" />
-      <Label layoutX="537.0" layoutY="523.0" text="התחלה:" />
-      <DatePicker fx:id="startDate" layoutX="454.0" layoutY="519.0" prefHeight="25.0" prefWidth="69.0" />
-      <Label layoutX="579.0" layoutY="480.0" text="בחר פרק זמן:" />
-      <Button fx:id="okBtn" layoutX="356.0" layoutY="555.0" mnemonicParsing="false" onAction="#updateBarChart" text="בחר" />
-      <ComboBox fx:id="storeList" layoutX="294.0" layoutY="596.0" onAction="#onChangeStore" prefWidth="150.0" />
-      <Label fx:id="chooseStoreLabel" layoutX="478.0" layoutY="600.0" text="בחר חנות:" />
+      <DatePicker fx:id="endDate" layoutX="159.0" layoutY="533.0" prefHeight="25.0" prefWidth="69.0" />
+      <Label layoutX="537.0" layoutY="537.0" text="התחלה:" />
+      <DatePicker fx:id="startDate" layoutX="454.0" layoutY="533.0" prefHeight="25.0" prefWidth="69.0" />
+      <Label layoutX="579.0" layoutY="494.0" text="בחר פרק זמן:" />
+      <Button fx:id="okBtn" layoutX="356.0" layoutY="569.0" mnemonicParsing="false" onAction="#updateBarChart" text="בחר" />
+      <ComboBox fx:id="storeList" layoutX="294.0" layoutY="610.0" onAction="#onChangeStore" prefWidth="150.0" />
+      <Label fx:id="chooseStoreLabel" layoutX="478.0" layoutY="614.0" text="בחר חנות:" />
+      <Button fx:id="newScreenBtn" layoutX="23.0" layoutY="14.0" mnemonicParsing="false" onAction="#onNewScreenBtnClick" text="פתיחת מסך נוסף להשוואה" />
    </children>
 </AnchorPane>
