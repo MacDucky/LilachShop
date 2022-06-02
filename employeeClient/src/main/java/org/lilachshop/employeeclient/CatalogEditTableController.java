@@ -69,7 +69,6 @@ public class CatalogEditTableController implements Initializable {
     @FXML
     private TableColumn<Item, Color> itemColorCol;
 
-
     @FXML
     private TableColumn<Item, String> descriptionCol;
 
