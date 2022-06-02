@@ -24,13 +24,12 @@ public class LilachServer extends AbstractServer {
             System.out.println("Unable to setup EntityFactory.");
             throw e;
         }
-        entityFactory.fillDataBase();
+//        entityFactory.fillDataBase();
     }
 
     @Override
     protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
         // todo: switch to a request class classifying.
-        System.out.println("got here");
         if (msg == null) {
             try {
                 client.sendToClient("Exception: Message was null!");
@@ -39,6 +38,7 @@ public class LilachServer extends AbstractServer {
             }
             return;
         }
+
         //************************ Report Request*******************************
 
         if (msg.getClass().equals(ReportsRequest.class)) {
@@ -74,7 +74,6 @@ public class LilachServer extends AbstractServer {
                 }
             }
         }
-
 
         //************************** Employee edit Request ***********************************
 
@@ -139,7 +138,6 @@ public class LilachServer extends AbstractServer {
         //************************Employee Login Request*****************************
 
         if (msg.getClass().equals(EmployeeLoginRequest.class)) {
-            System.out.println("got here3");
             EmployeeLoginRequest request = (EmployeeLoginRequest) msg;
             String userName = request.getUserName();
             String password = request.getPassword();
