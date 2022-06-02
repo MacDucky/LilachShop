@@ -64,7 +64,6 @@ public class Order implements Serializable {
 
     }
 
-
     public LocalDate getCreationDate() {
         return creationDate;
     }
