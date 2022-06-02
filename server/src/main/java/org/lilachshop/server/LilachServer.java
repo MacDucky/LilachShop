@@ -29,7 +29,6 @@ public class LilachServer extends AbstractServer {
     @Override
     protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
         // todo: switch to a request class classifying.
-        System.out.println("got here");
         if (msg == null) {
             try {
                 client.sendToClient("Exception: Message was null!");
@@ -138,7 +137,6 @@ public class LilachServer extends AbstractServer {
         //************************Employee Login Request*****************************
 
         if (msg.getClass().equals(EmployeeLoginRequest.class)) {
-            System.out.println("got here3");
             EmployeeLoginRequest request = (EmployeeLoginRequest) msg;
             String userName = request.getUserName();
             String password = request.getPassword();
@@ -293,7 +291,7 @@ public class LilachServer extends AbstractServer {
             try {
                 switch (message_from_client) {
                     case "get catalog" -> {
-                        Catalog catalog = entityFactory.getSingleCatalogEntityRecord(request.getCatalogId());
+                        Catalog catalog = entityFactory.getSingleCatalogEntityRecord(request.getId());
                         List<Item> items = catalog.getItems();
                         client.sendToClient(items);
                         System.out.println("catalog was sent!");

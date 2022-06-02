@@ -69,8 +69,8 @@ public class DashBoardController {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("OrderReport.fxml"));
             AnchorPane anchorPaneOrderReport =  fxmlLoader.load();
             displayer.getChildren().add(anchorPaneOrderReport);
-            OrderReportController controller = fxmlLoader.getController();
-            controller.employee= this.employee;
+//            OrderReportController controller = fxmlLoader.getController();
+//            controller.employee= this.employee;
 
         }catch (IOException e) {
             e.printStackTrace();
@@ -86,8 +86,8 @@ public class DashBoardController {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ComplaintReport.fxml"));
                 AnchorPane anchorPaneComplaintReport =  fxmlLoader.load();
                 displayer.getChildren().add(anchorPaneComplaintReport);
-                ComplaintReportController controller = fxmlLoader.getController();
-                controller.employee= this.employee;
+//                ComplaintReportController controller = fxmlLoader.getController();
+//                controller.employee= this.employee;
 
             }catch (IOException e) {
                 e.printStackTrace();
@@ -104,9 +104,9 @@ public class DashBoardController {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("IncomeReport.fxml"));
                 AnchorPane anchorPaneIncomeReport =  fxmlLoader.load();
                 displayer.getChildren().add(anchorPaneIncomeReport);
-                IncomeReportController controller = fxmlLoader.getController();
-                //controller.employee= this.employee;
-                controller.setData(this.employee);
+//                IncomeReportController controller = fxmlLoader.getController();
+//                controller.employee= this.employee;
+//                controller.setData(this.employee);
 
             }catch (IOException e) {
                 e.printStackTrace();
@@ -125,8 +125,8 @@ public class DashBoardController {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EmployeeTable.fxml"));
                 AnchorPane anchorPaneEmployeeTable =  fxmlLoader.load();
                 displayer.getChildren().add(anchorPaneEmployeeTable);
-                EmployeeTableController controller = fxmlLoader.getController();
-                controller.employee= this.employee;
+//                EmployeeTableController controller = fxmlLoader.getController();
+//                controller.employee= this.employee;
             }catch (IOException e) {
                 e.printStackTrace();
             }
@@ -141,8 +141,8 @@ public class DashBoardController {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CustomerTable.fxml"));
                 AnchorPane anchorPaneCustomerTable =  fxmlLoader.load();
                 displayer.getChildren().add(anchorPaneCustomerTable);
-                CustomerTableController controller = fxmlLoader.getController();
-                controller.employee= this.employee;
+//                CustomerTableController controller = fxmlLoader.getController();
+//                controller.employee= this.employee;
             }catch (IOException e) {
                 e.printStackTrace();
             }
@@ -158,8 +158,8 @@ public class DashBoardController {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CatalogEditTable.fxml"));
                 AnchorPane anchorPaneCatalog =  fxmlLoader.load();
                 displayer.getChildren().add(anchorPaneCatalog);
-                CatalogEditTableController  controller = fxmlLoader.getController();
-                controller.employee= this.employee;
+//                CatalogEditTableController  controller = fxmlLoader.getController();
+//                controller.employee= this.employee;
 
             }catch (IOException e) {
                 e.printStackTrace();
