@@ -5,10 +5,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import org.lilachshop.entities.Employee;
 import org.lilachshop.entities.Item;
 import org.lilachshop.entities.Store;
 
 public class CatalogEditTableController {
+    public Employee employee; //   Omer added that line, as this class needs to know which employee is "using the controller"
 
     @FXML
     private Button addBtn;

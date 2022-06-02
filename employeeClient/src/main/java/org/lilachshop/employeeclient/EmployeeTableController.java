@@ -35,6 +35,7 @@ import org.lilachshop.panels.*;
 
 public class EmployeeTableController implements Initializable {
 
+    public Employee employee; // Omer added that
     static private Panel panel;
 
     static private SystemManagerPanel sPanel;
