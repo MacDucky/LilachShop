@@ -29,6 +29,5 @@ public abstract class Panel {
             e.printStackTrace();
         }
     }
-
 }
 

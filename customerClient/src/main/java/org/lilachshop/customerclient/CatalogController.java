@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.*;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,9 +25,7 @@ import javafx.stage.Stage;
 import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.entities.*;
 import org.lilachshop.events.Signup3Event;
-import org.lilachshop.panels.AnnualCustomerPanel;
-import org.lilachshop.panels.Panel;
-import org.lilachshop.panels.StoreCustomerPanel;
+import org.lilachshop.panels.*;
 
 public class CatalogController {
     private static Panel panel;
@@ -39,6 +38,7 @@ public class CatalogController {
     private List<myOrderItem> myFlowers = null;
     int count = 0;
     private static final int MAX_ON_SALE = 10;
+    static Set<Store> allStoresSet = null;
 
     @FXML
     private Label history;
@@ -93,7 +93,8 @@ public class CatalogController {
     private ScrollPane scroll; // Value injected by FXMLLoader
 
     @FXML // fx:id="shopList"
-    private ChoiceBox<?> storeChoiceBox; // Value injected by FXMLLoader
+    private ChoiceBox<Store> storeChoiceBox; // Value injected by FXMLLoader
+
 
     /**
      * set the new scene cart
@@ -295,7 +296,26 @@ public class CatalogController {
 
         if(App.getMyCustomer() !=null && !App.getMyCustomer().getAccount().getAccountType().equals(AccountType.STORE_ACCOUNT)) {
             storeChoiceBox.setDisable(false);
-            //((AnnualCustomerPanel) App.getPanel()).getAllStores();
+            panel = OperationsPanelFactory.createPanel(PanelEnum.ANNUAL_CUSTOMER, this);
+            ((AnnualCustomerPanel) panel).getAllStores();
         }
+    }
+
+    public ChoiceBox<Store> getStoreChoiceBox() {
+        return storeChoiceBox;
+    }
+
+    @Subscribe
+    public void onGetAllStores(List<Store> allStores) {
+        Platform.runLater(() -> {
+            storeChoiceBox.setItems(FXCollections.observableArrayList(allStores));
+            storeChoiceBox.setOnAction((event) -> {
+                Store selectedItem = storeChoiceBox.getSelectionModel().getSelectedItem();
+                App.setMyStore(selectedItem);
+                App.setStoreId(selectedItem.getId());
+                App.getCustomerCatalog();
+            });
+
+        });
     }
 }

@@ -2,9 +2,11 @@ package org.lilachshop.customerclient;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.greenrobot.eventbus.Subscribe;
@@ -15,6 +17,7 @@ import org.lilachshop.events.OrderEvent;
 import org.lilachshop.panels.*;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,6 +29,7 @@ public class App extends Application {
     private static App controller;
     private static final int shipPrice = 15;
     private static Customer myCustomer = null;
+    private static Store myStore = null;
 
     public static Panel getPanel() {
         return panel;
@@ -47,8 +51,16 @@ public class App extends Application {
         return myFlowers;
     }
 
+    public static void setMyStore(Store myStore) {
+        App.myStore = myStore;
+    }
+
     public static void setMyFlowers(List<myOrderItem> myFlowers) {
         App.myFlowers = myFlowers;
+    }
+
+    public static void setStoreId(long storeId) {
+        App.storeId = storeId;
     }
 
     private static Scene scene;
@@ -71,6 +83,7 @@ public class App extends Application {
     }
 
     public static void CreatePanel() {
+        myStore = myCustomer.getStore();
         AccountType userAccountType = myCustomer.getAccount().getAccountType();
         if (userAccountType.equals(AccountType.CHAIN_ACCOUNT)) {
             panel = OperationsPanelFactory.createPanel(PanelEnum.CHAIN_CUSTOMER, controller);
@@ -112,8 +125,13 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         App.stage = stage;
-        ((CustomerAnonymousPanel) panel).sendGetGeneralCatalogRequestToServer();
+        ((CustomerAnonymousPanel) panel).getAllStores();
+    }
 
+    @Subscribe
+    public void handleMessageReceivedFromClient(List<Store> msg) {
+        App.myStore = msg.get(0);
+        ((CustomerAnonymousPanel) panel).sendGetGeneralCatalogRequestToServer();
     }
 
     @Subscribe
@@ -124,6 +142,12 @@ public class App extends Application {
                 FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("main.fxml"));
                 Parent root = fxmlLoader.load();
                 CatalogController controller = fxmlLoader.getController();
+                if (myCustomer == null ||myCustomer.getAccount().getAccountType().equals(AccountType.STORE_ACCOUNT)) {
+                    controller.getStoreChoiceBox().setItems(FXCollections.observableArrayList(myStore));
+                    controller.getStoreChoiceBox().getSelectionModel().selectFirst();
+                }
+                else
+                    controller.getStoreChoiceBox().getSelectionModel().select(myStore);
                 controller.showInfo(flowerList, this);
                 stage.setScene(new Scene(root));
                 stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::onCloseWindowEvent);
@@ -167,4 +191,5 @@ public class App extends Application {
         System.out.println("Graceful termination, goodbye ;)");
         System.exit(0);
     }
+
 }
