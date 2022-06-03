@@ -24,6 +24,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.lilachshop.entities.AccountType;
 import org.lilachshop.entities.Order;
 import org.lilachshop.entities.myOrderItem;
 
@@ -87,7 +88,7 @@ public class CartController implements Initializable {
         if(Integer.parseInt(count.getText()) > 0)
         {
 
-            if (!App.getMyCustomer().getAccount().getAccountType().equals(STORE_ACCOUNT) && sum > 50)
+            if (App.getMyCustomer().getAccount().getAccountType().equals(AccountType.ANNUAL_SUBSCRIPTION) && sum > 50)
             {
                 sum -= sum*0.1;
             }

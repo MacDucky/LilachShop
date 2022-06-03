@@ -1,5 +1,5 @@
 /**
- * Sample Skeleton for 'test.fxml' Controller Class
+ * Sample Skeleton for 'history.fxml' Controller Class
  */
 
 package org.lilachshop.customerclient;

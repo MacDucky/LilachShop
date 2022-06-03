@@ -1,7 +1,6 @@
 package org.lilachshop.panels;
 
 import org.greenrobot.eventbus.EventBus;
-import org.lilachshop.entities.Order;
 import org.lilachshop.requests.Request;
 
 import java.io.IOException;

@@ -164,7 +164,7 @@ public class App extends Application {
                 try {
                     Stage stage = App.getStage();
                     App.setMyOrders(msg.getOrders());
-                    FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("test.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("history.fxml"));
                     Parent root = fxmlLoader.load();
                     stage.setScene(new Scene(root));
                     stage.show();
