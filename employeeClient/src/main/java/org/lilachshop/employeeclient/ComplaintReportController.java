@@ -74,16 +74,15 @@ public class ComplaintReportController implements Initializable {
     void updateBarChart(ActionEvent event) {
         LocalDateTime start = null;
         LocalDateTime end = null;
-        try {
+        try{
             start = startDate.getValue().atStartOfDay();
             end = endDate.getValue().atStartOfDay();
+            if (start == null || end == null) {
+                displayNullAlert();
+                return;
+            }
         }catch (Exception e){
             displayNullAlert();
-            return;
-        }
-        if (start == null || end == null) {
-            displayNullAlert();
-            return;
         }
         if (end.isBefore(start)) {
             displayChronologyAlert();
