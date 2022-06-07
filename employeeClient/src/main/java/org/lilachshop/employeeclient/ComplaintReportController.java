@@ -11,6 +11,7 @@ import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.Subscribe;
+import org.lilachshop.commonUtils.Utilities;
 import org.lilachshop.entities.Complaint;
 import org.lilachshop.events.ComplaintsEvent;
 import org.lilachshop.panels.*;
@@ -107,7 +108,7 @@ public class ComplaintReportController implements Initializable {
         XYChart.Series set = new XYChart.Series<>();
         for (LocalDateTime date = start; date.isBefore(end); date = date.plusDays(1)) {
             for (Complaint complaint : relevantComplaintList) {
-                if (complaint.getCreationDate().equals(date)) {
+                if (Utilities.hasTheSameDate(date, complaint.getCreationDate())){
                     todayComplaintCounter++;
                 }
             }
