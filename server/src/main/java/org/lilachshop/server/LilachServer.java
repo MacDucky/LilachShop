@@ -148,6 +148,15 @@ public class LilachServer extends AbstractServer {
 
                     }
                 }
+                case  "get all complaints" ->{
+                    List<Complaint> allCompaints = entityFactory.getAllComplaints();
+                    ComplaintsEvent complaintsEvent = new ComplaintsEvent(allCompaints);
+                    try {
+                        client.sendToClient(complaintsEvent);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
                 case "get store complaints" -> {
                     long storeID = request.getStoreID();
                     List<Complaint> complaints = entityFactory.getComplaintsByStoreId(storeID);
