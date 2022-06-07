@@ -116,10 +116,7 @@ public class EntityFactory {
     public void addOredersToStoresStore(Store store1, Store store2, Store store3) {
         LocalDateTime dt = LocalDateTime.of(2022, 5, 27,12,12,12);
         YearMonth expDate = YearMonth.of(2025, Month.JULY);
-        List<Item> generalItemList = createItemList();
-        for (Item item : generalItemList) {
-            createOrUpdateSingleRecord(item);
-        }
+        List<Item> generalItemList = getAllItems();
 
         List<CreditCard> creditCards = new ArrayList<>();
         creditCards.add(new CreditCard("1234123412341234", expDate, "gil", "12345734", "123"));
@@ -150,11 +147,10 @@ public class EntityFactory {
         itemList1.add(new myOrderItem(generalItemList.get(2), 1));
         itemList1.add(new myOrderItem(generalItemList.get(3), 5));
 
-        LocalDateTime dateAndTime = LocalDateTime.of(2022, 5, 27,12,0,0);
+        LocalDateTime dateAndTime = LocalDateTime.of(2022, 5, 27, 12, 0, 0);
         DeliveryDetails deliveryDetails1 = new DeliveryDetails(dateAndTime, "05429384384", "גיל", "חיפה 42");
         Order order1 = new Order(dt, "מזל טוב תתחדשי על הפרחים!", itemList1, 100.0, 4, deliveryDetails1, null, null, customers.get(0));
         order1.setStore(store1);
-        deliveryDetails1.setOrder(order1);
         List<myOrderItem> itemList2 = new ArrayList<>();
         itemList2.add(new myOrderItem(generalItemList.get(4), 2));
         itemList2.add(new myOrderItem(generalItemList.get(5), 5));
@@ -163,9 +159,6 @@ public class EntityFactory {
         DeliveryDetails deliveryDetails2 = new DeliveryDetails(dateAndTime, "05429384384", "זיו", "חיפה, נווה שאנן 42");
         Order order2 = new Order(dt, "מזל טוב תתחדשו על הפרחים שלכם, הם יפים!", itemList2, 200.0, 4, deliveryDetails2, null, null, customers.get(1));
         order2.setStore(store1);
-        deliveryDetails2.setOrder(order2);
-        createOrUpdateSingleRecord(deliveryDetails1);
-        createOrUpdateSingleRecord(deliveryDetails2);
         createOrUpdateSingleRecord(order1);
         createOrUpdateSingleRecord(order2);
 
@@ -181,9 +174,7 @@ public class EntityFactory {
         PickUpDetails pickUpDetails1 = new PickUpDetails(dateAndTime);
         Order order3 = new Order(dt, "", itemList3, 400.0, 4, null, pickUpDetails1, null, customers.get(2));
         order3.setStore(store2);
-        pickUpDetails1.setOrder(order3);
         customers.get(2).addOrderToList(order3);
-        createOrUpdateSingleRecord(pickUpDetails1);
         createOrUpdateSingleRecord(order3);
         store2.addOrder(order3);
         customers.get(0).getOrders().add(order1);
@@ -192,9 +183,9 @@ public class EntityFactory {
     private static Catalog generateCatalog() {
 
         Catalog catalog = new Catalog();
-        catalog.setItems(createItemList());
+        List<Item> items = createItemList();
+        items.forEach(catalog::addItem);
         return catalog;
-
     }
 
     private static List<Item> createItemList() {
@@ -381,6 +372,38 @@ public class EntityFactory {
         deleteRecord(Order.class, "id", id);
     }
 
+    public List<Item> filterByThreePredicates(long catalogID, int price, Color color, ItemType type) {
+        Session session = sf.openSession();
+        CriteriaBuilder qb = session.getCriteriaBuilder();
+        CriteriaQuery<Item> cq = qb.createQuery(Item.class);
+        Root<Item> root = cq.from(Item.class);
+
+
+        //Constructing list of parameters
+        List<Predicate> predicates = new ArrayList<>();
+
+        //Adding predicates in case of parameter not being null
+        assert catalogID != 0 : "Bad query";
+        predicates.add(qb.equal(root.get("catalog"), catalogID));
+        if (color != null) {
+            predicates.add(qb.equal(root.get("color"), color));
+        }
+
+        assert price > 0 : "Bad query";
+        predicates.add(qb.lessThanOrEqualTo(root.get("price"), price));
+
+        if (type != null) {
+            predicates.add(qb.equal(root.get("itemType"), type));
+        }
+
+        //query itself
+        cq.select(root).where(predicates.toArray(new Predicate[]{}));
+        //execute query and do something with result
+        List<Item> items = session.createQuery(cq).getResultList();
+        session.close();
+        return items;
+    }
+
 
     /*
      *****************************************  Example Entity Methods   ******************************************************
@@ -547,7 +570,7 @@ public class EntityFactory {
 
     private static SessionFactory getSessionFactory() throws HibernateException {
         Configuration configuration = new Configuration();
-        configuration.addAnnotatedClass(ExampleEntity.class).addAnnotatedClass(ExampleEnum.class).addAnnotatedClass(Item.class).addAnnotatedClass(Catalog.class).addAnnotatedClass(Complaint.class).addAnnotatedClass(DeliveryDetails.class).addAnnotatedClass(PickUpDetails.class).addAnnotatedClass(Order.class).addAnnotatedClass(Store.class).addAnnotatedClass(User.class).addAnnotatedClass(Employee.class).addAnnotatedClass(Customer.class).addAnnotatedClass(CreditCard.class).addAnnotatedClass(Account.class).addAnnotatedClass(myOrderItem.class);
+        configuration.addAnnotatedClass(ExampleEntity.class).addAnnotatedClass(ExampleEnum.class).addAnnotatedClass(Item.class).addAnnotatedClass(Catalog.class).addAnnotatedClass(Complaint.class).addAnnotatedClass(Order.class).addAnnotatedClass(Store.class).addAnnotatedClass(User.class).addAnnotatedClass(Employee.class).addAnnotatedClass(Customer.class).addAnnotatedClass(CreditCard.class).addAnnotatedClass(Account.class).addAnnotatedClass(myOrderItem.class);
 
 
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()

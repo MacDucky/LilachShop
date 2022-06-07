@@ -1,5 +1,8 @@
 package org.lilachshop.entities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.imageio.ImageIO;
 import javax.persistence.*;
 import javax.swing.text.Utilities;
@@ -8,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 @Transactional
 @Entity
@@ -19,6 +23,10 @@ public class Item implements Serializable {
 
     @Column(name = "item_name")
     private String name;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "catalog_id")
+    private Catalog catalog;
 
     public Item(String name, String description, int percent, int price, ItemType itemType, Color color, byte[] imageBlob) {
         this.name = name;
@@ -34,8 +42,12 @@ public class Item implements Serializable {
         return percent;
     }
 
-    public void setPercent(int percent) {
-        this.percent = percent;
+    public void setPercent(int percent) throws Exception{
+        if(percent >100){
+         throw new Exception("הנחה לא יכולה להיות יותר מ-100 אחוז");
+        }else {
+            this.percent=percent;
+        }
     }
 
     String description;
@@ -137,7 +149,7 @@ public class Item implements Serializable {
         imageBlob = out.toByteArray();
     }
 
-    private void setImageBlob(String imgPath) throws IOException,NullPointerException {
+    private void setImageBlob(String imgPath) throws IOException, NullPointerException {
         File imageFile = new File(imgPath);
         BufferedImage image = ImageIO.read(imageFile);
         setImageBlobInternal(image, imageFile.getName().split("\\.")[1].toUpperCase(Locale.ROOT));
@@ -150,5 +162,26 @@ public class Item implements Serializable {
 
     public InputStream getImageInputStream() {
         return new ByteArrayInputStream(imageBlob);
+    }
+
+    public Catalog getCatalog() {
+        return catalog;
+    }
+
+    public void setCatalog(Catalog catalog) {
+        this.catalog = catalog;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return id == item.id;
     }
 }
