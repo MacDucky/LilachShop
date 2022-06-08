@@ -28,6 +28,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.hibernate.type.LocalDateTimeType;
+import org.lilachshop.commonUtils.Utilities;
 import org.lilachshop.entities.DeliveryDetails;
 import org.lilachshop.entities.Order;
 import org.lilachshop.entities.PickUpDetails;
@@ -172,7 +173,10 @@ public class OrderStage2Controller {
             if (!FieldInHebrewOrDisplayError(receipient, "שם המקבל אינו תקין - אנא מלא שוב בעברית")) {
                 return false;
             }
-            if (!FieldInHebrewOrDisplayError(address, "הכתובת אינה תקינה - אנא מלא שוב בעברית")) {
+            if (!Utilities.containHebrewOrNumber(address.getText())) {
+                alert.setContentText("הכתובת אינה תקינה - אנא מלא שוב בעברית");
+                alert.show();
+                address.clear();
                 return false;
             }
             if (!receiveImm.isSelected()  ) {
