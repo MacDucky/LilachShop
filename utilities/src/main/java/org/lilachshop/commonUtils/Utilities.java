@@ -115,6 +115,8 @@ public class Utilities {
     }
 
     public static boolean containHebrew(String str) {
+        str = str.replaceAll("[/.,\\-]", "");
+        str = str.replaceAll(" ","");
         boolean valid = str.chars().allMatch(p -> ((p <= 0x05ea && p >= 0x05d0) || (p == ' ') || (p == '-') || (p == ',')));
         System.out.println(valid);
         return valid;
