@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.commonUtils.Socket;
+import org.lilachshop.events.ConnectionIssueEvent;
 import org.lilachshop.events.ItemsEvent;
 import org.lilachshop.entities.*;
 import org.lilachshop.events.OrderEvent;
@@ -167,6 +168,7 @@ public class CustomerApp extends Application {
                 FXMLLoader fxmlLoader = new FXMLLoader(CustomerApp.class.getResource("main.fxml"));
                 Parent root = fxmlLoader.load();
                 CatalogController controller = fxmlLoader.getController();
+                controller.chosenFlower.setVisible(true);
                 if (myCustomer == null || myCustomer.getAccount().getAccountType().equals(AccountType.STORE_ACCOUNT)) {
                     controller.getStoreChoiceBox().setItems(FXCollections.observableArrayList(myStore));
                     controller.getStoreChoiceBox().getSelectionModel().selectFirst();
@@ -257,4 +259,5 @@ public class CustomerApp extends Application {
             socket = new Socket();
         }
     }
+
 }
