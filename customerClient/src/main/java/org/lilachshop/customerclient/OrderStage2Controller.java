@@ -32,8 +32,7 @@ import org.lilachshop.commonUtils.Utilities;
 import org.lilachshop.entities.DeliveryDetails;
 import org.lilachshop.entities.Order;
 import org.lilachshop.entities.PickUpDetails;
-
-import javax.swing.text.Utilities;
+import org.lilachshop.entities.User;
 
 import static org.lilachshop.commonUtils.Utilities.containHebrew;
 
@@ -310,8 +309,8 @@ public class OrderStage2Controller {
         address.setText(CustomerApp.getMyCustomer().getAddress());
         name.setText("שלום, " + CustomerApp.getMyCustomer().getName());
         shopNum.setText(CustomerApp.getMyStore().getStoreName());
-        selfDate.setTime(LocalDateTime.now().plusHours(3));
-        date.setTime(LocalDateTime.now().plusHours(3));
+        selfDate.setTime(LocalDateTime.now().plusHours(3).plusMinutes(5));
+        date.setTime(LocalDateTime.now().plusHours(3).plusMinutes(5));
     }
 
     @FXML

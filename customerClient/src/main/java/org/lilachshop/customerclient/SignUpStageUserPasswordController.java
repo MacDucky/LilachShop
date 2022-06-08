@@ -25,11 +25,9 @@ import org.lilachshop.panels.OperationsPanelFactory;
 import org.lilachshop.panels.Panel;
 import org.lilachshop.panels.PanelEnum;
 
-public class SignUpStage1Controller implements Initializable {
+public class SignUpStageUserPasswordController implements Initializable {
 
     static private Panel panel = null;
-    String userName;
-    String password;
 
     @FXML
     private ResourceBundle resources;
