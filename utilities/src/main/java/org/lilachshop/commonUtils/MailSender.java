@@ -35,7 +35,7 @@ public class MailSender {
                     InternetAddress.parse(order.getCustomer().getEmail())
             );
             message.setSubject("Order reached destination");
-            message.setText(order.getCustomer() +
+            message.setText(order.getCustomer().getUserName() +
                     " Hello,"+
                     "\n" +
                     " order number: " +
