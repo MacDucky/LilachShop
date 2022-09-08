@@ -84,10 +84,10 @@ public class HistoryItemController {
             price.setText(Double.toString(order.getTotalPrice()));
         }
     }
-
+    @FXML
     public void onComplaintReply(ActionEvent event) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MessageBoxComplaint.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("messageBoxComplaint.fxml"));
             Parent root = fxmlLoader.load();
             MessageBoxComplaintController controller = fxmlLoader.getController();
             Stage stage = new Stage();

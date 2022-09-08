@@ -59,18 +59,20 @@ public class EmployeeApp extends Application {
     }
 
     private static void setSocket(String[] args) {
-        try {
-            int port = Socket.DEFAULT_PORT;
-            try {
-                port = Integer.parseInt(args[1]);
-                socket = new Socket(args[0], port);
-            } catch (NumberFormatException | IndexOutOfBoundsException e) {
-                socket = new Socket(args[0]);
-            }
-        } catch (UnknownHostException e) {
-            System.out.println("Unknown host.");
-        } catch (IndexOutOfBoundsException e) {
-            socket = new Socket();
-        }
+        socket = new Socket(Socket.DEFAULT_HOST, Socket.DEFAULT_PORT);
+//
+//        try {
+//            int port = Socket.DEFAULT_PORT;
+//            try {
+//                port = Integer.parseInt(args[1]);
+//                socket = new Socket(args[0], port);
+//            } catch (NumberFormatException | IndexOutOfBoundsException e) {
+//                socket = new Socket(args[0]);
+//            }
+//        } catch (UnknownHostException e) {
+//            System.out.println("Unknown host.");
+//        } catch (IndexOutOfBoundsException e) {
+//            socket = new Socket();
+//        }
     }
 }

@@ -119,7 +119,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>org.lilachshop.customerclient.CustomerMain</mainClass>
-                            <commandlineArgs>DanyP:3000</commandlineArgs> <!-- SPECIFY SOCKET HERE -->
+                            <commandlineArgs>localhost:3000</commandlineArgs> <!-- SPECIFY SOCKET HERE -->
                         </configuration>
                     </execution>
                 </executions>

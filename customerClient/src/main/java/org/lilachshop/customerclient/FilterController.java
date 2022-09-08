@@ -58,7 +58,7 @@ public class FilterController {
         else {
             ((StoreCustomerPanel) CustomerApp.getPanel()).sendGetFilteredCatalog(CustomerApp.getMyStore().getCatalog().getId(), (int) (sliderPrice.getLowValue()), (int) (sliderPrice.getHighValue()), comboColor.getSelectionModel().getSelectedItem(), comboType.getSelectionModel().getSelectedItem());
         }
-        ((Stage) filter.getScene().getWindow()).close();
+//        ((Stage) filter.getScene().getWindow()).close();
     }
 
     @FXML
